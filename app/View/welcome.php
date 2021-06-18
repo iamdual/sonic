@@ -1,0 +1,1 @@
+<?= sprintf(_('Welcome to the %s!'), $site_name); ?>
