@@ -35,13 +35,19 @@ final class Request
         return Request\Cookie::getInstance();
     }
 
-    public static function get(string $key, ?string $default = null): mixed
+    public static function get(string $key, mixed $default = null, bool $string_only = false): mixed
     {
+        if ($string_only && !is_string($_GET[$key])) {
+            return null;
+        }
         return $_GET[$key] ?? $default;
     }
 
-    public static function post(string $key, ?string $default = null): mixed
+    public static function post(string $key, mixed $default = null, bool $string_only = false): mixed
     {
+        if ($string_only && !is_string($_POST[$key])) {
+            return null;
+        }
         return $_POST[$key] ?? $default;
     }
 

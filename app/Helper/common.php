@@ -10,16 +10,17 @@ function env(string $key, ?string $default = null): ?string
     return \Sonic\Config\Environment::getInstance()->get($key, $default);
 }
 
-function get(string $key, ?string $default = null): ?string
+function get(string $key, mixed $default = null, bool $string_only = false): mixed
 {
-    return $_GET[$key] ?? $default;
+    return \Sonic\Request::get($key, $default, $string_only);
 }
 
-function post(string $key, ?string $default = null): ?string
+function post(string $key, mixed $default = null, bool $string_only = false): mixed
 {
-    return $_POST[$key] ?? $default;
+    return \Sonic\Request::post($key, $default, $string_only);
 }
 
-function __(string $key, string $domain) {
+function __(string $key, string $domain)
+{
     return \dgettext($domain, $key);
 }
