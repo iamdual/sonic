@@ -16,6 +16,3 @@ PHP allows me to make and deploy the prototypes or projects instantly and low co
 
 ### Contributions
 Please send pull request. I currently don't maintain this project.
-
-### Author
-Ekin Karadeniz &lt;iamdual@icloud.com&gt;
