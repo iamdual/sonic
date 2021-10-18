@@ -124,7 +124,11 @@ final class Sonic
             }
         }
 
+        // Call the requested handler
         $this->callHandler($route->getHandler(), $params);
+
+        // Call events for the end of the request
+        Event::call('core.end');
     }
 
     public function console(): void
@@ -132,7 +136,7 @@ final class Sonic
         $this->loadHelpers();
 
         global $argv, $argc;
-        $handlerClass = "";
+        $handlerClass = '';
         $handlerArgs = [];
         for ($i = 1; $i < $argc; $i++) {
             if ($i === 1) {
