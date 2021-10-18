@@ -67,7 +67,7 @@ final class Sonic
         }
     }
 
-    private function loadHelpers()
+    private function loadHelpers(): void
     {
         $autoload = require APP . '/Config/autoload.php';
         if (!empty($autoload['helper'])) {
@@ -131,7 +131,7 @@ final class Sonic
         $this->loadHelpers();
 
         global $argv, $argc;
-        $handlerClass = null;
+        $handlerClass = "";
         $handlerArgs = [];
         for ($i = 1; $i < $argc; $i++) {
             if ($i === 1) {
@@ -142,7 +142,7 @@ final class Sonic
         }
 
         if (!class_exists($handlerClass)) {
-            exit('Handler not found: ' . $handlerClass);
+            exit('Handler not found: ' . $handlerClass . PHP_EOL);
         }
 
         $this->callHandler([$handlerClass, 'handler'], $handlerArgs);
