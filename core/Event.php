@@ -9,9 +9,9 @@ final class Event
 {
     private static array $events = [];
 
-    public static function add(string $key, callable $callable): void
+    public static function add(string $key, array $handler): void
     {
-        self::$events[$key][] = $callable;
+        self::$events[$key][] = $handler;
     }
 
     public static function get(string $key): array
@@ -21,8 +21,9 @@ final class Event
 
     public static function call(string $key, ...$args): void
     {
-        foreach (self::get($key) as $callable) {
-            call_user_func_array($callable, $args);
+        foreach (self::get($key) as $handler) {
+            list($class, $method) = $handler;
+            call_user_func_array([new $class, $method], $args);
         }
     }
 }

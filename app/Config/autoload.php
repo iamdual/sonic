@@ -1,7 +1,7 @@
 <?php
 
-use App\Middleware\CorsHeaders;
 use App\Extension\ServerTime;
+use App\Middleware\CorsHeaders;
 
 return [
     'helper' => ['common'],

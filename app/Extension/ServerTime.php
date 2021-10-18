@@ -10,13 +10,12 @@ class ServerTime extends Extension
     // The "core.routes" event is passing the RouteCollector as a parameter to the given function.
     public function init(): void
     {
-        Event::add('core.routes', [ServerTime::class, 'serverTimeRouter']);
+        Event::add('core.routes', [__CLASS__, 'serverTimeRouter']);
     }
 
-    // All the event handler functions has to be static.
-    public static function serverTimeRouter(RouteCollector $routing)
+    public function serverTimeRouter(RouteCollector $routing): void
     {
-        $routing->get('/server-time', [ServerTime::class, 'serverTimeHandler']);
+        $routing->get('/server-time', [__CLASS__, 'serverTimeHandler']);
     }
 
     // All the route handlers are calling dynamically by creating as a new instance.
