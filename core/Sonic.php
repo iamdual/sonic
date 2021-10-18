@@ -136,7 +136,7 @@ final class Sonic
         $this->loadHelpers();
 
         global $argv, $argc;
-        $handlerClass = '';
+        $handlerClass = null;
         $handlerArgs = [];
         for ($i = 1; $i < $argc; $i++) {
             if ($i === 1) {
@@ -146,6 +146,9 @@ final class Sonic
             }
         }
 
+        if (!$handlerClass) {
+            exit('Please enter a handler.' . PHP_EOL);
+        }
         if (!class_exists($handlerClass)) {
             exit('Handler not found: ' . $handlerClass . PHP_EOL);
         }
