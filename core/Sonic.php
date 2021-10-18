@@ -21,12 +21,12 @@ final class Sonic
 
     private function callMiddleware(string $mwClass): bool
     {
-        return call_user_func([new $mwClass, "handler"]);
+        return call_user_func([new $mwClass, 'handler']);
     }
 
     private function callExtension(string $extClass): void
     {
-        call_user_func([new $extClass, "init"]);
+        call_user_func([new $extClass, 'init']);
     }
 
     private function triggerError(string $method): void
@@ -67,16 +67,21 @@ final class Sonic
         }
     }
 
-    public function response(): void
+    private function loadHelpers()
     {
-        $this->initSessionAndLocale();
-
         $autoload = require APP . '/Config/autoload.php';
         if (!empty($autoload['helper'])) {
             foreach ($autoload['helper'] as $helper) {
                 require APP . '/Helper/' . $helper . '.php';
             }
         }
+    }
+
+    public function response(): void
+    {
+        $this->initSessionAndLocale();
+        $this->loadHelpers();
+
         if (!empty($autoload['extension'])) {
             foreach ($autoload['extension'] as $extClass) {
                 $this->callExtension($extClass);
@@ -119,5 +124,27 @@ final class Sonic
         }
 
         $this->callHandler($route->getHandler(), $params);
+    }
+
+    public function console(): void
+    {
+        $this->loadHelpers();
+
+        global $argv, $argc;
+        $handlerClass = null;
+        $handlerArgs = [];
+        for ($i = 1; $i < $argc; $i++) {
+            if ($i === 1) {
+                $handlerClass = '\\App\\Console\\' . $argv[$i];
+            } else {
+                $handlerArgs[] = (string)$argv[$i];
+            }
+        }
+
+        if (!class_exists($handlerClass)) {
+            exit('Handler not found: ' . $handlerClass);
+        }
+
+        $this->callHandler([$handlerClass, 'handler'], $handlerArgs);
     }
 }

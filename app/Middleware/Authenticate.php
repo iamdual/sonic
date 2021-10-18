@@ -15,6 +15,6 @@ class Authenticate extends Middleware
         Response::statusCode(403);
         Response::json(['success' => false, 'message' => 'Unauthorized token.']);
 
-        return false; // don't continue
+        return false; // terminate the request
     }
 }
