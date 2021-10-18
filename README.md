@@ -11,8 +11,14 @@ A flexible web framework for PHP >= 8.0.
 - Called classes are auto loading by Composer
 - Extension support
 
+### Documentation
+[Please visit the wiki page of the Sonic](https://github.com/iamdual/sonic/wiki/).
+
 ### Why PHP?
 PHP allows me to make and deploy the prototypes or projects instantly and low costly.
 
 ### Contributions
 Please send pull request. I currently don't maintain this project.
+
+### Author(s)
+- Ekin Karadeniz
