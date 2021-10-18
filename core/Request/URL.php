@@ -58,27 +58,27 @@ final class URL
         $this->segments = $segments;
     }
 
-    public function getUri(): string
+    public function uri(): string
     {
         return $this->uri;
     }
 
-    public function getPath(): string
+    public function path(): string
     {
         return $this->path;
     }
 
-    public function getSegment(int $index): ?string
+    public function segment(int $index): ?string
     {
         return $this->segments[$index] ?? null;
     }
 
-    public function getSegments(): array
+    public function segments(): array
     {
         return $this->segments;
     }
 
-    public function getLanguageCode(): ?string
+    public function languageCode(): ?string
     {
         return $this->languageCode ?? null;
     }

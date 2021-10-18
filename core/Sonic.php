@@ -50,7 +50,7 @@ final class Sonic
 
         // Set i18n via gettext if enabled
         if ($config->get('i18n.enabled', false)) {
-            $i18n_lang = Request::url()->getLanguageCode() ?: $config->get('i18n.default');
+            $i18n_lang = Request::url()->languageCode() ?: $config->get('i18n.default');
             $i18n_charset = $config->get('i18n.charset', 'UTF-8');
             $i18n_locales = $config->get('i18n.locales', []);
             $i18n_locale = $i18n_locales[$i18n_lang] ?? $i18n_lang;
@@ -101,7 +101,7 @@ final class Sonic
 
         // Get routes and try to match
         $routes = require APP . '/Config/routes.php';
-        $routeMatcher = new RouteMatcher(Request::url()->getPath(), Request::getMethod());
+        $routeMatcher = new RouteMatcher(Request::url()->path(), Request::method());
         $matched = $routeMatcher->getMatched($routes);
         if ($matched === null) {
             $this->triggerError('notFound');

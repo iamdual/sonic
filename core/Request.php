@@ -56,12 +56,12 @@ final class Request
         return $_SERVER[$key] ?? $default;
     }
 
-    public static function getRawData(): ?string
+    public static function rawData(): ?string
     {
         return file_get_contents('php://input') ?: null;
     }
 
-    public static function getMethod(): string
+    public static function method(): string
     {
         return $_SERVER['REQUEST_METHOD'];
     }

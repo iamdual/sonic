@@ -35,32 +35,32 @@ final class Header
         return $this->headers[strtolower($key)] ?? null;
     }
 
-    public function getHeaders(): array
+    public function getAll(): array
     {
         return $this->headers;
     }
 
-    public function getContentType(): ?string
+    public function contentType(): ?string
     {
         return $this->headers['content-type'] ?? null;
     }
 
-    public function getUserAgent(): ?string
+    public function userAgent(): ?string
     {
         return $this->headers['user-agent'] ?? null;
     }
 
-    public function getAccept(): ?string
+    public function accept(): ?string
     {
         return $this->headers['accept'] ?? null;
     }
 
-    public function getAcceptLanguage(): ?string
+    public function acceptLanguage(): ?string
     {
         return $this->headers['accept-language'] ?? null;
     }
 
-    public function getAcceptEncoding(): ?string
+    public function acceptEncoding(): ?string
     {
         return $this->headers['accept-encoding'] ?? null;
     }
@@ -72,7 +72,7 @@ final class Header
 
     public function isJsonRequest(): bool
     {
-        return str_starts_with(strtolower($this->getContentType()), 'application/json');
+        return str_starts_with(strtolower($this->contentType()), 'application/json');
     }
 
     public function isXmlHttpRequest(): bool
@@ -82,10 +82,10 @@ final class Header
 
     public function acceptsJson(): bool
     {
-        return str_starts_with(strtolower($this->getAccept()), 'application/json');
+        return str_starts_with(strtolower($this->accept()), 'application/json');
     }
 
-    public function getClientIp(bool $use_headers = true): string
+    public function clientIp(bool $use_headers = true): string
     {
         $ip = $_SERVER['REMOTE_ADDR'];
 
