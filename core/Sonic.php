@@ -67,22 +67,16 @@ final class Sonic
         }
     }
 
-    private function loadHelpers(): mixed
+    public function response(): void
     {
+        $this->initSessionAndLocale();
+
         $autoload = require APP . '/Config/autoload.php';
         if (!empty($autoload['helper'])) {
             foreach ($autoload['helper'] as $helper) {
                 require APP . '/Helper/' . $helper . '.php';
             }
         }
-        return $autoload;
-    }
-
-    public function response(): void
-    {
-        $this->initSessionAndLocale();
-        $autoload = $this->loadHelpers();
-
         if (!empty($autoload['extension'])) {
             foreach ($autoload['extension'] as $extClass) {
                 $this->callExtension($extClass);
@@ -133,8 +127,6 @@ final class Sonic
 
     public function console(): void
     {
-        $this->loadHelpers();
-
         global $argv, $argc;
         $handlerClass = null;
         $handlerArgs = [];
