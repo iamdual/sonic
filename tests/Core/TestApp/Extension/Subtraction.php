@@ -5,7 +5,7 @@ namespace Sonic\Tests\Core\TestApp\Extension;
 use Sonic\Event;
 use Sonic\Extension;
 
-class LoadTimer extends Extension
+class Subtraction extends Extension
 {
     private static int $firstNumber = 0;
     private static int $lastNumber = 0;

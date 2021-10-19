@@ -4,18 +4,18 @@ namespace Sonic\Tests\Core\Extension;
 
 use PHPUnit\Framework\TestCase;
 use Sonic\Event;
-use Sonic\Tests\Core\TestApp\Extension\LoadTimer;
+use Sonic\Tests\Core\TestApp\Extension\Subtraction;
 
 final class InitAndLoadedTest extends TestCase
 {
     protected function setUp(): void
     {
-        call_user_func([new LoadTimer, 'init']);
+        call_user_func([new Subtraction, 'init']);
     }
 
     /**
      * @runInSeparateProcess
-     * @covers \Sonic\Tests\Core\TestApp\Extension\LoadTimer
+     * @covers \Sonic\Tests\Core\TestApp\Extension\Subtraction
      */
     public function testHandler(): void
     {
