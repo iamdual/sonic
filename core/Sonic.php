@@ -71,6 +71,9 @@ final class Sonic
     {
         $this->initSessionAndLocale();
 
+        // Call events for initialization
+        Event::call('core.init');
+
         $autoload = require APP . '/Config/autoload.php';
         if (!empty($autoload['helper'])) {
             foreach ($autoload['helper'] as $helper) {
@@ -85,13 +88,11 @@ final class Sonic
         if (!empty($autoload['middleware'])) {
             foreach ($autoload['middleware'] as $mwClass) {
                 if ($this->callMiddleware($mwClass) !== true) {
+                    Event::call('core.loaded');
                     return;
                 }
             }
         }
-
-        // Call events for initialization
-        Event::call('core.init');
 
         // Get routes and try to match
         $routes = require APP . '/Config/routes.php';
@@ -99,6 +100,7 @@ final class Sonic
         $matched = $routeMatcher->getMatched($routes);
         if ($matched === null) {
             $this->triggerError('notFound');
+            Event::call('core.loaded');
             return;
         }
 
@@ -113,6 +115,7 @@ final class Sonic
         if (!empty($middleware)) {
             foreach ($middleware as $mwCallback) {
                 if ($this->callMiddleware($mwCallback) !== true) {
+                    Event::call('core.loaded');
                     return;
                 }
             }
@@ -122,7 +125,7 @@ final class Sonic
         $this->callHandler($route->getHandler(), $params);
 
         // Call events for the end of the request
-        Event::call('core.end');
+        Event::call('core.loaded');
     }
 
     public function console(): void

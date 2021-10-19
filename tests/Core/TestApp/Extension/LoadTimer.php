@@ -13,7 +13,7 @@ class LoadTimer extends Extension
     public function init(): void
     {
         Event::add('core.init', [__CLASS__, 'onInit']);
-        Event::add('core.end', [__CLASS__, 'onEnd']);
+        Event::add('core.loaded', [__CLASS__, 'onEnd']);
     }
 
     public function onInit(): void

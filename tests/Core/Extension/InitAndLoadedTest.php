@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Sonic\Event;
 use Sonic\Tests\Core\TestApp\Extension\LoadTimer;
 
-final class InitEndTest extends TestCase
+final class InitAndLoadedTest extends TestCase
 {
     protected function setUp(): void
     {
@@ -22,7 +22,7 @@ final class InitEndTest extends TestCase
         Event::call('core.init');
 
         ob_start();
-        Event::call('core.end');
+        Event::call('core.loaded');
         $output = ob_get_clean();
 
         self::assertEquals('Result: 2', $output);
