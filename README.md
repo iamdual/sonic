@@ -1,5 +1,5 @@
 # Sonic
-A flexible web framework for PHP >= 8.0.
+A performance-first and flexible web framework for PHP >= 8.0.
 
 ### Features
 
@@ -20,5 +20,5 @@ PHP allows me to make and deploy the prototypes or projects instantly and low co
 ### Contributions
 Please send pull request. I currently don't maintain this project.
 
-### Author(s)
-- Ekin Karadeniz
+### Author
+Ekin Karadeniz (iamdual@icloud.com)
