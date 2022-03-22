@@ -1,5 +1,5 @@
 # Sonic
-A performance-first and flexible web framework for PHP >= 8.0.
+A performance-first and flexible web framework for PHP >= 8.0. (Still in development)
 
 ### Features
 
