@@ -41,7 +41,7 @@ final class Environment
 
     public function set(string $key, string $value): void
     {
-        $_ENV[$key] = $_SERVER[$key] = $this->env[$key] = $value;
+        $_ENV[$key] = $this->env[$key] = $value;
         putenv($key . '=' . $value);
     }
 
