@@ -82,6 +82,11 @@ final class Environment
 
     private function generateCachedFile(): void
     {
+        $config = Application::getInstance();
+        if ($config->get('cache.env.enabled', true) == false) {
+            return;
+        }
+        
         $handle = fopen(self::$cached_file, 'w');
         if (!$handle) {
             throw new EnvironmentException(sprintf(
