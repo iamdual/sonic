@@ -22,7 +22,7 @@ final class ConfigTest extends TestCase
         $this->assertTrue($app_config->has('name'));
         $this->assertFalse($app_config->has('iamdual'));
 
-        $app_config->set('iamdual', 'existency');
+        $app_config->set('iamdual', 'existence');
         $this->assertTrue($app_config->has('iamdual'));
     }
 
