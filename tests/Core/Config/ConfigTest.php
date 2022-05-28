@@ -15,15 +15,15 @@ final class ConfigTest extends TestCase
      */
     public function testConfigApp(): void
     {
-        $config_app = Manager::getInstance('app', self::CONFIG_DIR);
+        $app_config = Manager::getInstance('app', self::CONFIG_DIR);
 
-        $this->assertEquals('Antarctica/Macquarie', $config_app->get('timezone'));
-        $this->assertEquals('Sonic Test', $config_app->get('name'));
-        $this->assertTrue($config_app->has('name'));
-        $this->assertFalse($config_app->has('iamdual'));
+        $this->assertEquals('Antarctica/Macquarie', $app_config->get('timezone'));
+        $this->assertEquals('Sonic Test', $app_config->get('name'));
+        $this->assertTrue($app_config->has('name'));
+        $this->assertFalse($app_config->has('iamdual'));
 
-        $config_app->set('iamdual', 'existsency');
-        $this->assertTrue($config_app->has('iamdual'));
+        $app_config->set('iamdual', 'existency');
+        $this->assertTrue($app_config->has('iamdual'));
     }
 
     /**
