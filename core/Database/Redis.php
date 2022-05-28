@@ -6,7 +6,7 @@
  * @author  Ekin Karadeniz (iamdual@icloud.com)
  */
 
-use Sonic\Config\Database;
+use Sonic\Config\Manager;
 
 final class Redis
 {
@@ -20,7 +20,7 @@ final class Redis
             return self::$instance[$conf_key];
         }
 
-        $db_conf = Database::getInstance()->getParams();
+        $db_conf = Manager::getInstance('redis')->getParams();
 
         $address = $db_conf[$conf_key]['address'];
         $port = $db_conf[$conf_key]['port'] ?? null;

@@ -7,7 +7,7 @@
  */
 
 use App\Controller\Errors;
-use Sonic\Config\Application;
+use Sonic\Config\Manager;
 use Sonic\Routing\Route;
 use Sonic\Routing\RouteMatcher;
 
@@ -36,30 +36,32 @@ final class Sonic
 
     private function initSessionAndLocale(): void
     {
-        $config = Application::getInstance();
+        $session_config = Manager::getInstance('session');
+        $app_config = Manager::getInstance('app');
+        $i18n_config = Manager::getInstance('i18n');
 
         // Start session if enabled
-        if ($config->get('session.enabled', false)) {
-            session_start($config->get('session.config', []));
+        if ($session_config->get('enabled', false)) {
+            session_start($session_config->get('config', []));
         }
 
         // Set timezone if set
-        if ($config->get('app.timezone')) {
-            date_default_timezone_set($config->get('app.timezone'));
+        if ($app_config->get('timezone')) {
+            date_default_timezone_set($app_config->get('timezone'));
         }
 
         // Set i18n via gettext if enabled
-        if ($config->get('i18n.enabled', false)) {
-            $i18n_lang = Request::url()->languageCode() ?: $config->get('i18n.default');
-            $i18n_charset = $config->get('i18n.charset', 'UTF-8');
-            $i18n_locales = $config->get('i18n.locales', []);
+        if ($i18n_config->get('enabled', false)) {
+            $i18n_lang = Request::url()->languageCode() ?: $i18n_config->get('default');
+            $i18n_charset = $i18n_config->get('charset', 'UTF-8');
+            $i18n_locales = $i18n_config->get('locales', []);
             $i18n_locale = $i18n_locales[$i18n_lang] ?? $i18n_lang;
             putenv('LC_ALL=' . $i18n_locale);
             setlocale(LC_ALL, $i18n_locale);
-            $i18n_domains = $config->get('i18n.domains', []);
+            $i18n_domains = $i18n_config->get('domains', []);
             if (!empty($i18n_domains[0])) {
                 \textdomain($i18n_domains[0]);
-                foreach ($i18n_domains as $i => $i18n_domain) {
+                foreach ($i18n_domains as $i18n_domain) {
                     \bindtextdomain($i18n_domain, APP . '/Locale');
                     \bind_textdomain_codeset($i18n_domain, $i18n_charset);
                 }

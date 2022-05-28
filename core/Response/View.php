@@ -16,20 +16,20 @@ final class View
     public function render(string $path, array $params = [], string $layout = 'default'): void
     {
         extract($params, flags: EXTR_SKIP);
-        $view = APP . "/View/{$path}.php";
-        require APP . "/View/_layouts/{$layout}.php";
+        $view = APP . "/View/$path.php";
+        require APP . "/View/_layouts/$layout.php";
     }
 
     public function single(string $path, array $params = []): void
     {
         extract($params, flags: EXTR_SKIP);
-        require APP . "/View/{$path}.php";
+        require APP . "/View/$path.php";
     }
 
     public function error(int $code, array $params = []): void
     {
         Response::statusCode($code);
-        $this->single("_errors/{$code}", $params);
+        $this->single("_errors/$code", $params);
     }
 
     public function notFound(array $params = []) {
