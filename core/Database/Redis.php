@@ -14,18 +14,16 @@ final class Redis
 
     public static function getInstance(string $conf_id = 'default'): \Redis
     {
-        $conf_key = 'redis.' . $conf_id;
-
-        if (isset(self::$instance[$conf_key])) {
-            return self::$instance[$conf_key];
+        if (isset(self::$instance[$conf_id])) {
+            return self::$instance[$conf_id];
         }
 
         $db_conf = Manager::getInstance('redis')->getParams();
 
-        $address = $db_conf[$conf_key]['address'];
-        $port = $db_conf[$conf_key]['port'] ?? null;
-        $database = $db_conf[$conf_key]['database'] ?? null;
-        $auth = $db_conf[$conf_key]['auth'] ?? null;
+        $address = $db_conf[$conf_id]['address'];
+        $port = $db_conf[$conf_id]['port'] ?? null;
+        $database = $db_conf[$conf_id]['database'] ?? null;
+        $auth = $db_conf[$conf_id]['auth'] ?? null;
 
         $connection = new \Redis();
         $connection->connect($address, $port);
@@ -35,6 +33,6 @@ final class Redis
         if ($auth) {
             $connection->auth($auth);
         }
-        return self::$instance[$conf_key] = $connection;
+        return self::$instance[$conf_id] = $connection;
     }
 }

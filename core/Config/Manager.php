@@ -12,16 +12,28 @@ class Manager
     private string $current;
     private string $config_dir;
 
-    public static function getInstance(string $namespace, ?string $config_dir = null)
+    public static function getInstance(string $namespace)
     {
         if (isset(self::$instance[$namespace])) {
             return self::$instance[$namespace];
         }
 
-        return self::$instance[$namespace] = new Manager($namespace, $config_dir);
+        return self::$instance[$namespace] = new Manager($namespace);
     }
 
-    private function __construct(string $namespace, ?string $config_dir = null)
+    public static function getByExpression(string $expression, mixed $default = null) {
+        $parts = explode('.', $expression, 2);
+        if (isset($parts[1])) {
+            $namespace = $parts[0];
+            $key = $parts[1];
+        } else {
+            $namespace = 'app';
+            $key = $parts[0];
+        }
+        return self::getInstance($namespace)->get($key, $default);
+    }
+
+    public function __construct(string $namespace, ?string $config_dir = null)
     {
         $this->current = $namespace;
 

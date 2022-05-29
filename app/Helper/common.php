@@ -2,15 +2,7 @@
 
 function config(string $expression, ?string $default = null): mixed
 {
-    $parts = explode('.', $expression, 2);
-    if (isset($parts[1])) {
-        $namespace = $parts[0];
-        $key = $parts[1];
-    } else {
-        $namespace = 'app';
-        $key = $parts[0];
-    }
-    return \Sonic\Config\Manager::getInstance($namespace)->get($key, $default);
+    return \Sonic\Config\Manager::getByExpression($expression, $default);
 }
 
 function env(string $key, ?string $default = null): ?string

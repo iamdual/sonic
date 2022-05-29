@@ -2,7 +2,7 @@
 
 return [
     'enabled' => true,
-    'config' => [
+    'options' => [
         'name' => '_sonicsessid',
         'save_handler' => 'files'
     ]

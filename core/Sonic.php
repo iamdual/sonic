@@ -42,7 +42,7 @@ final class Sonic
 
         // Start session if enabled
         if ($session_config->get('enabled', false)) {
-            session_start($session_config->get('config', []));
+            session_start($session_config->get('options', []));
         }
 
         // Set timezone if set
@@ -56,6 +56,7 @@ final class Sonic
             $i18n_charset = $i18n_config->get('charset', 'UTF-8');
             $i18n_locales = $i18n_config->get('locales', []);
             $i18n_locale = $i18n_locales[$i18n_lang] ?? $i18n_lang;
+            putenv('LANGUAGE=' . $i18n_locale);
             putenv('LC_ALL=' . $i18n_locale);
             setlocale(LC_ALL, $i18n_locale);
             $i18n_domains = $i18n_config->get('domains', []);
