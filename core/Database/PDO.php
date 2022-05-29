@@ -18,7 +18,7 @@ final class PDO
             return self::$instance[$conf_id];
         }
 
-        $db_conf = Manager::getInstance('database')->getParams();
+        $db_conf = Manager::getInstance('pdo')->getParams();
 
         $pdo_dsn = $db_conf[$conf_id]['pdo_dsn'];
         $username = $db_conf[$conf_id]['username'] ?? null;
