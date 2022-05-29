@@ -6,7 +6,7 @@
  * @author  Ekin Karadeniz (iamdual@icloud.com)
  */
 
-use Sonic\Config\Application;
+use Sonic\Config\Manager;
 use Sonic\Singleton;
 
 final class URL
@@ -23,8 +23,6 @@ final class URL
 
     private function __construct()
     {
-        $config = Application::getInstance();
-
         if (isset($_SERVER['REQUEST_URI'])) {
             $request_uri = $_SERVER['REQUEST_URI'];
         } elseif (isset($_GET['_path'])) {
@@ -37,9 +35,10 @@ final class URL
         $segments = explode(self::SEPARATOR, $path_side);
         array_shift($segments); // explode('/', '/') == ['', '']
 
-        if ($config->get('i18n.enabled', false)) {
-            $this->languageCode = $config->get('i18n.default');
-            if (in_array($segments[0], $config->get('i18n.languages', []), true)) {
+        $i18n_config = Manager::getInstance('i18n');
+        if ($i18n_config->get('enabled', false)) {
+            $this->languageCode = $i18n_config->get('default');
+            if (in_array($segments[0], $i18n_config->get('languages', []), true)) {
                 $this->languageCode = $segments[0];
                 array_shift($segments);
             }

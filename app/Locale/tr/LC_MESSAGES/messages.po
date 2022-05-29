@@ -1,25 +1,25 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sonic\n"
-"POT-Creation-Date: 2021-04-07 02:02+0300\n"
-"PO-Revision-Date: 2021-04-07 02:02+0300\n"
+"POT-Creation-Date: 2022-05-29 12:16+0300\n"
+"PO-Revision-Date: 2022-05-29 12:16+0300\n"
 "Last-Translator: Ekin Karadeniz <iamdual@icloud.com>\n"
 "Language-Team: \n"
-"Language: tr\n"
+"Language: tr_TR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 2.3\n"
 "X-Poedit-Basepath: ../../..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: Controller/Main.php:11
+#: Controller/Main.php:12
 msgid "Hello world!"
 msgstr "Merhaba dünya!"
 
 #: View/welcome.php:1
 #, php-format
 msgid "Welcome to the %s!"
-msgstr "%s hoşgeldiniz!"
+msgstr "%s diyarına hoşgeldiniz!"

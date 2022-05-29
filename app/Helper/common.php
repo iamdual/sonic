@@ -1,8 +1,8 @@
 <?php
 
-function config(string $key, ?string $default = null): mixed
+function config(string $expression, ?string $default = null): mixed
 {
-    return \Sonic\Config\Application::getInstance()->get($key, $default);
+    return \Sonic\Config\Manager::getByExpression($expression, $default);
 }
 
 function env(string $key, ?string $default = null): ?string
@@ -20,7 +20,7 @@ function post(string $key, mixed $default = null, bool $string_only = false): mi
     return \Sonic\Request::post($key, $default, $string_only);
 }
 
-function __(string $key, string $domain)
+function __(string $key, string $domain): string
 {
     return \dgettext($domain, $key);
 }

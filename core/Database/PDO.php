@@ -6,7 +6,7 @@
  * @author  Ekin Karadeniz (iamdual@icloud.com)
  */
 
-use Sonic\Config\Database;
+use Sonic\Config\Manager;
 
 final class PDO
 {
@@ -14,20 +14,18 @@ final class PDO
 
     public static function getInstance(string $conf_id = 'default'): \PDO
     {
-        $conf_key = 'pdo.' . $conf_id;
-
-        if (isset(self::$instance[$conf_key])) {
-            return self::$instance[$conf_key];
+        if (isset(self::$instance[$conf_id])) {
+            return self::$instance[$conf_id];
         }
 
-        $db_conf = Database::getInstance()->getParams();
+        $db_conf = Manager::getInstance('pdo')->getParams();
 
-        $pdo_dsn = $db_conf[$conf_key]['pdo_dsn'];
-        $username = $db_conf[$conf_key]['username'] ?? null;
-        $password = $db_conf[$conf_key]['password'] ?? null;
+        $pdo_dsn = $db_conf[$conf_id]['pdo_dsn'];
+        $username = $db_conf[$conf_id]['username'] ?? null;
+        $password = $db_conf[$conf_id]['password'] ?? null;
 
         $connection = new \PDO($pdo_dsn, $username, $password);
         $connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-        return self::$instance[$conf_key] = $connection;
+        return self::$instance[$conf_id] = $connection;
     }
 }
