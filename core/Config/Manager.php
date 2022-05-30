@@ -61,8 +61,8 @@ class Manager
         return isset($this->params[$this->current][$key]);
     }
 
-    public function getParams(): array
+    public function getParams(): ?array
     {
-        return $this->params[$this->current];
+        return $this->params[$this->current] ?? null;
     }
 }
