@@ -2,7 +2,8 @@
 
 function config(string $expression, ?string $default = null): mixed
 {
-    return \Sonic\Config\Manager::getByExpression($expression, $default);
+    [$namespace, $key] = \Sonic\Config\Manager::parseExpression($expression);
+    return \Sonic\Config\Manager::getInstance($namespace)->get($key, $default);
 }
 
 function env(string $key, ?string $default = null): ?string

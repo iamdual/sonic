@@ -5,7 +5,7 @@ namespace Sonic\Tests\Core\Config;
 use PHPUnit\Framework\TestCase;
 use Sonic\Config\Manager;
 
-final class ConfigTest extends TestCase
+final class ConfigParamsTest extends TestCase
 {
     const CONFIG_DIR = SONIC . '/tests/Core/TestApp/Config';
 
@@ -16,6 +16,7 @@ final class ConfigTest extends TestCase
     public function testConfigApp(): void
     {
         $app_config = new Manager('app', self::CONFIG_DIR);
+        $this->assertNotEmpty($app_config->getParams());
 
         $this->assertEquals('Antarctica/Macquarie', $app_config->get('timezone'));
         $this->assertEquals('Sonic Test', $app_config->get('name'));
@@ -33,6 +34,7 @@ final class ConfigTest extends TestCase
     public function testConfigCore(): void
     {
         $config_core = new Manager('core', self::CONFIG_DIR);
+        $this->assertNotEmpty($config_core->getParams());
 
         $this->assertFalse($config_core->get('env.caching'));
         $this->assertTrue($config_core->has('env.caching'));

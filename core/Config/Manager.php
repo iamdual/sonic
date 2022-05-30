@@ -10,9 +10,8 @@ class Manager
     private static array $instance;
     private array $params;
     private string $current;
-    private string $config_dir;
 
-    public static function getInstance(string $namespace)
+    public static function getInstance(string $namespace): self
     {
         if (isset(self::$instance[$namespace])) {
             return self::$instance[$namespace];
@@ -21,7 +20,8 @@ class Manager
         return self::$instance[$namespace] = new Manager($namespace);
     }
 
-    public static function getByExpression(string $expression, mixed $default = null) {
+    public static function parseExpression(string $expression): array
+    {
         $parts = explode('.', $expression, 2);
         if (isset($parts[1])) {
             $namespace = $parts[0];
@@ -30,7 +30,7 @@ class Manager
             $namespace = 'app';
             $key = $parts[0];
         }
-        return self::getInstance($namespace)->get($key, $default);
+        return [$namespace, $key];
     }
 
     public function __construct(string $namespace, ?string $config_dir = null)
@@ -38,13 +38,11 @@ class Manager
         $this->current = $namespace;
 
         if (!$config_dir) {
-            $this->config_dir = APP . '/Config';
-        } else {
-            $this->config_dir = $config_dir;
+            $config_dir = APP . '/Config';
         }
 
-        if (is_file("$this->config_dir/$namespace.php")) {
-            $this->params[$namespace] = require "$this->config_dir/$namespace.php";
+        if (is_file("$config_dir/$namespace.php")) {
+            $this->params[$namespace] = require "$config_dir/$namespace.php";
         }
     }
 
