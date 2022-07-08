@@ -16,7 +16,8 @@ final class URL
     private string $uri;
     private string $path;
     private array $segments;
-    private string $languageCode;
+    private ?string $languageCode;
+    private string $languagePrefix;
 
     private const SEPARATOR = '/';
     private const QUESTION_MARK = '?';
@@ -36,10 +37,11 @@ final class URL
         array_shift($segments); // explode('/', '/') == ['', '']
 
         $i18n_config = Manager::getInstance('i18n');
+        $this->languageCode = $i18n_config->get('default');
         if ($i18n_config->get('enabled', false)) {
-            $this->languageCode = $i18n_config->get('default');
             if (in_array($segments[0], $i18n_config->get('languages', []), true)) {
                 $this->languageCode = $segments[0];
+                $this->languagePrefix = $segments[0] . self::SEPARATOR;
                 array_shift($segments);
             }
         }
@@ -80,5 +82,10 @@ final class URL
     public function languageCode(): ?string
     {
         return $this->languageCode ?? null;
+    }
+
+    public function languagePrefix(): string
+    {
+        return $this->languagePrefix ?? '';
     }
 }
