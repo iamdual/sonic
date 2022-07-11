@@ -61,6 +61,15 @@ final class Request
         return file_get_contents('php://input') ?: null;
     }
 
+    public static function json(): mixed
+    {
+        $decoded = json_decode(self::rawData());
+        if (json_last_error() === JSON_ERROR_NONE) {
+            return $decoded;
+        }
+        return null;
+    }
+
     public static function method(): string
     {
         return $_SERVER['REQUEST_METHOD'];
