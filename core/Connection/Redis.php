@@ -1,4 +1,4 @@
-<?php namespace Sonic\Database;
+<?php namespace Sonic\Connection;
 /**
  *             Sonic Web Framework
  * @license Apache License 2.0
