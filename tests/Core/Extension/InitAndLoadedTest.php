@@ -22,7 +22,7 @@ final class InitAndLoadedTest extends TestCase
         Event::call('core.init');
 
         ob_start();
-        Event::call('core.loaded');
+        Event::call('core.finish');
         $output = ob_get_clean();
 
         self::assertEquals('Result: 2', $output);

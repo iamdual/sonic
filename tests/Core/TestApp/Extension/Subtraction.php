@@ -13,7 +13,7 @@ class Subtraction extends Extension
     public function init(): void
     {
         Event::add('core.init', [__CLASS__, 'onInit']);
-        Event::add('core.loaded', [__CLASS__, 'onEnd']);
+        Event::add('core.finish', [__CLASS__, 'onFinish']);
     }
 
     public static function onInit(): void
@@ -21,7 +21,7 @@ class Subtraction extends Extension
         self::$firstNumber = 10;
     }
 
-    public static function onEnd(): void
+    public static function onFinish(): void
     {
         self::$lastNumber = 8;
 

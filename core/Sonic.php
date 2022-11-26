@@ -91,7 +91,7 @@ final class Sonic
         if (!empty($autoload['middleware'])) {
             foreach ($autoload['middleware'] as $mwClass) {
                 if ($this->callMiddleware($mwClass) !== true) {
-                    Event::call('core.loaded');
+                    Event::call('core.finish');
                     return;
                 }
             }
@@ -103,7 +103,7 @@ final class Sonic
         $matched = $routeMatcher->getMatched($routes);
         if ($matched === null) {
             $this->triggerError('notFound');
-            Event::call('core.loaded');
+            Event::call('core.finish');
             return;
         }
 
@@ -118,7 +118,7 @@ final class Sonic
         if (!empty($middleware)) {
             foreach ($middleware as $mwCallback) {
                 if ($this->callMiddleware($mwCallback) !== true) {
-                    Event::call('core.loaded');
+                    Event::call('core.finish');
                     return;
                 }
             }
@@ -128,7 +128,7 @@ final class Sonic
         $this->callHandler($route->getHandler(), $params);
 
         // Call events for the end of the request
-        Event::call('core.loaded');
+        Event::call('core.finish');
     }
 
     public function console(): void
