@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'enabled' => true,
+    'enabled' => false,
     'default' => 'en',
     'languages' => ['en', 'fr', 'tr'],
     'domains' => ['messages'],
