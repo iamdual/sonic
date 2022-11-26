@@ -16,12 +16,12 @@ class Subtraction extends Extension
         Event::add('core.loaded', [__CLASS__, 'onEnd']);
     }
 
-    public function onInit(): void
+    public static function onInit(): void
     {
         self::$firstNumber = 10;
     }
 
-    public function onEnd(): void
+    public static function onEnd(): void
     {
         self::$lastNumber = 8;
 

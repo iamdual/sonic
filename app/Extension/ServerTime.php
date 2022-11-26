@@ -13,13 +13,13 @@ class ServerTime extends Extension
         Event::add('core.routes', [__CLASS__, 'serverTimeRouter']);
     }
 
-    public function serverTimeRouter(RouteCollector $routing): void
+    public static function serverTimeRouter(RouteCollector $routing): void
     {
         $routing->get('/server-time', [__CLASS__, 'serverTimeHandler']);
     }
 
     // All the route handlers are calling dynamically by creating as a new instance.
-    public function serverTimeHandler()
+    public static function serverTimeHandler()
     {
         Response::json([
             "date" => date("Y-m-d H:i:s"),

@@ -9,21 +9,19 @@ final class Event
 {
     private static array $events = [];
 
-    public static function add(string $key, array $handler): void
+    public static function add(string $key, callable $callback): void
     {
-        self::$events[$key][] = $handler;
-    }
-
-    public static function get(string $key): array
-    {
-        return self::$events[$key] ?? [];
+        self::$events[$key][] = $callback;
     }
 
     public static function call(string $key, ...$args): void
     {
-        foreach (self::get($key) as $handler) {
-            list($class, $method) = $handler;
-            call_user_func_array([new $class, $method], $args);
+        if (empty(self::$events[$key])) {
+            return;
+        }
+
+        foreach (self::$events[$key] as $callback) {
+            call_user_func_array($callback, $args);
         }
     }
 }

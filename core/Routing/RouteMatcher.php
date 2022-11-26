@@ -27,6 +27,7 @@ final class RouteMatcher
         $routes($routeCollector);
 
         // Apply event specific routes
+        // Objects are always passed by reference. So, RouteCollector passing as an argument to the given callback.
         Event::call('core.routes', $routeCollector);
 
         // Try to match with route rules
