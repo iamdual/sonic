@@ -18,14 +18,16 @@ final class Route
         $this->handler = $handler;
     }
 
+    /** @var $methods string[] */
     public function setMethods(array $methods)
     {
         $this->methods = $methods;
     }
 
-    public function setMiddleware(array $middleware)
+    /** @var $mwClasses string[] */
+    public function setMiddleware(array $mwClasses)
     {
-        $this->middleware = $middleware;
+        $this->middleware = $mwClasses;
     }
 
     public function getRule(): ?string
@@ -43,6 +45,7 @@ final class Route
         return $this->methods ?? null;
     }
 
+    /** @return ?string[] */
     public function getMiddleware(): ?array
     {
         return $this->middleware ?? null;

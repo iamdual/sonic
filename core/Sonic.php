@@ -13,20 +13,14 @@ use Sonic\Routing\RouteMatcher;
 
 final class Sonic
 {
-    private function callHandler(array $handler, array $params = []): void
+    private function callHandler(array $handler, array $params = []): mixed
     {
-        list($class, $method) = $handler;
-        call_user_func_array([new $class, $method], $params);
-    }
+        if (is_callable($handler)) {
+            return call_user_func_array($handler, $params);
+        }
 
-    private function callMiddleware(string $mwClass): bool
-    {
-        return call_user_func([new $mwClass, 'handler']);
-    }
-
-    private function callExtension(string $extClass): void
-    {
-        call_user_func([new $extClass, 'init']);
+        [$class, $method] = $handler;
+        return call_user_func_array([new $class, $method], $params);
     }
 
     private function triggerError(string $method): void
@@ -85,12 +79,12 @@ final class Sonic
         }
         if (!empty($autoload['extension'])) {
             foreach ($autoload['extension'] as $extClass) {
-                $this->callExtension($extClass);
+                $this->callHandler([$extClass, 'init']);
             }
         }
         if (!empty($autoload['middleware'])) {
             foreach ($autoload['middleware'] as $mwClass) {
-                if ($this->callMiddleware($mwClass) !== true) {
+                if ($this->callHandler([$mwClass, 'handler']) !== true) {
                     Event::call('core.finish');
                     return;
                 }
@@ -106,18 +100,11 @@ final class Sonic
             Event::call('core.finish');
             return;
         }
-
-        /** @var Route $route */
         $route = $matched->getRoute();
-
-        /** @var array $params */
-        $params = $matched->getParams();
-
-        /** @var ?array $middleware */
         $middleware = $route->getMiddleware();
         if (!empty($middleware)) {
-            foreach ($middleware as $mwCallback) {
-                if ($this->callMiddleware($mwCallback) !== true) {
+            foreach ($middleware as $mwClass) {
+                if ($this->callHandler([$mwClass, 'handler']) !== true) {
                     Event::call('core.finish');
                     return;
                 }
@@ -125,7 +112,7 @@ final class Sonic
         }
 
         // Call the requested handler
-        $this->callHandler($route->getHandler(), $params);
+        $this->callHandler($route->getHandler(), $matched->getParams());
 
         // Call events for the end of the request
         Event::call('core.finish');

@@ -18,7 +18,6 @@ class ServerTime extends Extension
         $routing->get('/server-time', [__CLASS__, 'serverTimeHandler']);
     }
 
-    // All the route handlers are calling dynamically by creating as a new instance.
     public static function serverTimeHandler()
     {
         Response::json([

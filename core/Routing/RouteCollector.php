@@ -40,41 +40,42 @@ final class RouteCollector
         self::$routes[] = $route;
     }
 
-    public function get($path, $handler, $middleware = null): void
+    public function get(string $path, array $handler, ?array $middleware = null): void
     {
         $this->route($path, $handler, methods: [Request::GET], middleware: $middleware);
     }
 
-    public function post($path, $handler, $middleware = null): void
+    public function post(string $path, array $handler, ?array $middleware = null): void
     {
         $this->route($path, $handler, methods: [Request::POST], middleware: $middleware);
     }
 
-    public function put($path, $handler, $middleware = null): void
+    public function put(string $path, array $handler, ?array $middleware = null): void
     {
         $this->route($path, $handler, methods: [Request::PUT], middleware: $middleware);
     }
 
-    public function patch($path, $handler, $middleware = null): void
+    public function patch(string $path, array $handler, ?array $middleware = null): void
     {
         $this->route($path, $handler, methods: [Request::PATCH], middleware: $middleware);
     }
 
-    public function delete($path, $handler, $middleware = null): void
+    public function delete(string $path, array $handler, ?array $middleware = null): void
     {
         $this->route($path, $handler, methods: [Request::DELETE], middleware: $middleware);
     }
 
-    public function head($path, $handler, $middleware = null): void
+    public function head(string $path, array $handler, ?array $middleware = null): void
     {
         $this->route($path, $handler, methods: [Request::HEAD], middleware: $middleware);
     }
 
-    public function options($path, $handler, $middleware = null): void
+    public function options(string $path, array $handler, ?array $middleware = null): void
     {
         $this->route($path, $handler, methods: [Request::OPTIONS], middleware: $middleware);
     }
 
+    /** @return Route[] */
     public function getRoutes(): array
     {
         return self::$routes;
