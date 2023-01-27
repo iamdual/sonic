@@ -37,18 +37,24 @@ final class Request
 
     public static function get(string $key, mixed $default = null, bool $string_only = false): mixed
     {
-        if ($string_only && !is_string($_GET[$key])) {
-            return null;
+        if (isset($_GET[$key])) {
+            if ($string_only && !is_string($_GET[$key])) {
+                return null;
+            }
+            return $_GET[$key];
         }
-        return $_GET[$key] ?? $default;
+        return $default;
     }
 
     public static function post(string $key, mixed $default = null, bool $string_only = false): mixed
     {
-        if ($string_only && !is_string($_POST[$key])) {
-            return null;
+        if (isset($_POST[$key])) {
+            if ($string_only && !is_string($_POST[$key])) {
+                return null;
+            }
+            return $_POST[$key];
         }
-        return $_POST[$key] ?? $default;
+        return $default;
     }
 
     public static function server(string $key, ?string $default = null): mixed
