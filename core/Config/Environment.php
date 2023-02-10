@@ -82,7 +82,7 @@ final class Environment
 
     private function generateCachedFile(): void
     {
-        if (Manager::getInstance('core')->get('env.caching', true) == false) {
+        if (empty($this->env) || Manager::getInstance('core')->get('env.caching', true) == false) {
             return;
         }
 
