@@ -91,14 +91,17 @@ final class Header
 
         if ($use_headers) {
             $headers = [
-                'HTTP_CLIENT_IP',
+                'HTTP_CF_CONNECTING_IP',
                 'HTTP_X_FORWARDED_FOR',
-                'HTTP_X_FORWARDED',
-                'HTTP_FORWARDED_FOR',
-                'HTTP_FORWARDED'];
+                'HTTP_X_REAL_IP',
+            ];
             foreach ($headers as $header) {
                 if (isset($_SERVER[$header])) {
-                    $ip = $_SERVER[$header];
+                    // Some header values coming as comma separated
+                    $first_ip = explode(',', $_SERVER[$header], 2)[0];
+                    if (filter_var($first_ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false) {
+                        $ip = $first_ip;
+                    }
                     break;
                 }
             }
