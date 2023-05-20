@@ -24,6 +24,7 @@ final class Redis
         $port = $db_conf[$conf_id]['port'] ?? null;
         $database = $db_conf[$conf_id]['database'] ?? null;
         $auth = $db_conf[$conf_id]['auth'] ?? null;
+        $prefix = $db_conf[$conf_id]['prefix'] ?? null;
 
         $connection = new \Redis();
         $connection->connect($address, $port);
@@ -32,6 +33,9 @@ final class Redis
         }
         if ($auth) {
             $connection->auth($auth);
+        }
+        if ($prefix) {
+            $connection->setOption(\Redis::OPT_PREFIX, $prefix);
         }
         return self::$instance[$conf_id] = $connection;
     }
