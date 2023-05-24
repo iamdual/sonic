@@ -5,7 +5,7 @@
  * @link    https://github.com/iamdual/sonic
  * @author  Ekin Karadeniz (iamdual@icloud.com)
  */
-class Manager
+class Config
 {
     private static array $instance;
     private array $params;
@@ -17,7 +17,7 @@ class Manager
             return self::$instance[$namespace];
         }
 
-        return self::$instance[$namespace] = new Manager($namespace);
+        return self::$instance[$namespace] = new Config($namespace);
     }
 
     public static function parseExpression(string $expression): array

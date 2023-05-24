@@ -6,7 +6,7 @@
  * @author  Ekin Karadeniz (iamdual@icloud.com)
  */
 
-use Sonic\Config\Manager;
+use Sonic\Config\Config;
 use Sonic\Singleton;
 
 final class URL
@@ -36,7 +36,7 @@ final class URL
         $segments = explode(self::SEPARATOR, $path_side);
         array_shift($segments); // explode('/', '/') == ['', '']
 
-        $i18n_config = Manager::getInstance('i18n');
+        $i18n_config = Config::getInstance('i18n');
         $this->languageCode = $i18n_config->get('default');
         if ($i18n_config->get('enabled', false)) {
             if (in_array($segments[0], $i18n_config->get('languages', []), true)) {
