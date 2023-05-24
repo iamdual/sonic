@@ -64,6 +64,18 @@ final class Header
     {
         return $this->headers['accept-encoding'] ?? null;
     }
+    
+    public function httpHost(): ?string
+    {
+        return $this->headers['host'] ?? null;
+    }
+
+    public function domain(): ?string {
+        if (!$http_host = $this->httpHost()) {
+            return null;
+        }
+        return parse_url($http_host, PHP_URL_HOST);
+    }
 
     public function clientIp(bool $use_headers = true): ?string
     {
