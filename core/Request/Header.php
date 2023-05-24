@@ -65,9 +65,9 @@ final class Header
         return $this->headers['accept-encoding'] ?? null;
     }
 
-    public function clientIp(bool $use_headers = true): string
+    public function clientIp(bool $use_headers = true): ?string
     {
-        $ip = $_SERVER['REMOTE_ADDR'];
+        $ip = $_SERVER['REMOTE_ADDR'] ?? null;
 
         if ($use_headers) {
             $headers = [
