@@ -76,13 +76,13 @@ final class Request
         return null;
     }
 
-    public static function method(): string
+    public static function method(): ?string
     {
-        return $_SERVER['REQUEST_METHOD'];
+        return $_SERVER['REQUEST_METHOD'] ?? null;
     }
 
     public static function isMethod(string $method): bool
     {
-        return $_SERVER['REQUEST_METHOD'] === $method;
+        return self::method() === $method;
     }
 }
