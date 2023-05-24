@@ -65,21 +65,6 @@ final class Header
         return $this->headers['accept-encoding'] ?? null;
     }
 
-    public function hasNoCache(): bool
-    {
-        return $this->get('cache-control') === 'no-cache';
-    }
-
-    public function isJsonRequest(): bool
-    {
-        return str_starts_with(strtolower($this->contentType()), 'application/json');
-    }
-
-    public function acceptsJson(): bool
-    {
-        return str_starts_with(strtolower($this->accept()), 'application/json');
-    }
-
     public function clientIp(bool $use_headers = true): string
     {
         $ip = $_SERVER['REMOTE_ADDR'];
