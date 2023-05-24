@@ -6,9 +6,9 @@
  * @author  Ekin Karadeniz (iamdual@icloud.com)
  */
 
-use Sonic\Config\Manager;
+use Sonic\Config\Config;
 
-final class PDO
+final class DB
 {
     private static array $instance;
 
@@ -18,7 +18,7 @@ final class PDO
             return self::$instance[$conf_id];
         }
 
-        $db_conf = Manager::getInstance('pdo')->getParams();
+        $db_conf = Config::getInstance('pdo')->getParams();
 
         $pdo_dsn = $db_conf[$conf_id]['pdo_dsn'];
         $username = $db_conf[$conf_id]['username'] ?? null;
