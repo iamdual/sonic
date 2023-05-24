@@ -75,11 +75,6 @@ final class Header
         return str_starts_with(strtolower($this->contentType()), 'application/json');
     }
 
-    public function isXmlHttpRequest(): bool
-    {
-        return $this->get('x-requested-with') === 'XMLHttpRequest';
-    }
-
     public function acceptsJson(): bool
     {
         return str_starts_with(strtolower($this->accept()), 'application/json');
