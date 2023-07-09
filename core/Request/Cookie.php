@@ -12,12 +12,15 @@ final class Cookie
 {
     use Singleton;
 
-    public function set(string $key, string $val, int $expiry = 0, string $path = '/', string $domain = ''): bool
+    public function set(string $key, string $val, array $options = []): bool
     {
-        if (!$expiry) {
-            $expiry = time() + (86400 * 31);
+        if (!isset($options['expires'])) {
+            $options['expires'] = time() + 2630000; // about a month
         }
-        return setcookie($key, $val, $expiry, $path, $domain);
+        if (!isset($options['path'])) {
+            $options['path'] = '/';
+        }
+        return setcookie($key, $val, $options);
     }
 
     public function get(string $key, ?string $default = null): ?string
@@ -34,5 +37,10 @@ final class Cookie
     {
         unset($_COOKIE[$key]);
         return setcookie($key, '', -1);
+    }
+
+    public function getAll(): array
+    {
+        return $_COOKIE ?? [];
     }
 }
