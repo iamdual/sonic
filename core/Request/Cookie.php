@@ -12,7 +12,7 @@ final class Cookie
 {
     use Singleton;
 
-    public function set(string $key, string $val, int $expiry = 0, string $path = "/", string $domain = null): bool
+    public function set(string $key, string $val, int $expiry = 0, string $path = '/', string $domain = ''): bool
     {
         if (!$expiry) {
             $expiry = time() + (86400 * 31);
