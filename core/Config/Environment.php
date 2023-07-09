@@ -39,22 +39,40 @@ final class Environment
         }
     }
 
+    /**
+     * @param string $key Environment key
+     * @param string $value Environment value
+     * @return void
+     */
     public function set(string $key, string $value): void
     {
         $_ENV[$key] = $this->env[$key] = $value;
         putenv($key . '=' . $value);
     }
 
+    /**
+     * @param string $key Environment key
+     * @param string|null $default Default return value
+     * @return string|null
+     */
     public function get(string $key, ?string $default = null): ?string
     {
         return $this->env[$key] ?? $default;
     }
 
+    /**
+     * @param string $key Environment key
+     * @return bool
+     */
     public function has(string $key): bool
     {
         return isset($this->env[$key]);
     }
 
+    /**
+     * @return void
+     * @throws EnvironmentException
+     */
     private function readEnvironmentFile(): void
     {
         $handle = fopen(self::$env_file, 'r');
@@ -80,9 +98,13 @@ final class Environment
         fclose($handle);
     }
 
+    /**
+     * @return void
+     * @throws EnvironmentException
+     */
     private function generateCachedFile(): void
     {
-        if (empty($this->env) || Manager::getInstance('core')->get('env.caching', true) == false) {
+        if (empty($this->env) || Config::getInstance('core')->get('env.caching', true) == false) {
             return;
         }
 

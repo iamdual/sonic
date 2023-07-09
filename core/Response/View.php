@@ -13,6 +13,13 @@ final class View
 {
     use Singleton;
 
+    /**
+     * Renders a view together with layout
+     * @param string $path View path
+     * @param array $params View parameters in key/value pair
+     * @param string $layout Layout path
+     * @return void
+     */
     public function render(string $path, array $params = [], string $layout = 'default'): void
     {
         extract($params, flags: EXTR_SKIP);
@@ -20,19 +27,39 @@ final class View
         require APP . "/View/_layouts/$layout.php";
     }
 
+    /**
+     * Renders a view
+     * @param string $path View path
+     * @param array $params View parameters in key/value pair
+     * @return void
+     */
     public function single(string $path, array $params = []): void
     {
         extract($params, flags: EXTR_SKIP);
         require APP . "/View/$path.php";
     }
 
-    public function error(int $code, array $params = []): void
+    /**
+     * Renders an error by its code
+     * @param int|string $code Error code
+     * @param array $params
+     * @return void
+     */
+    public function error(int|string $code, array $params = []): void
     {
-        Response::statusCode($code);
+        if (is_int($code)) {
+            Response::statusCode($code);
+        }
         $this->single("_errors/$code", $params);
     }
 
-    public function notFound(array $params = []) {
+    /**
+     * Renders not found error
+     * @param array $params
+     * @return void
+     */
+    public function notFound(array $params = []): void
+    {
         $this->error(404, $params);
     }
 }

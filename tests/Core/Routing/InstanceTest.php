@@ -3,7 +3,7 @@
 namespace Sonic\Tests\Core\Routing;
 
 use PHPUnit\Framework\TestCase;
-use Sonic\Request;
+use Sonic\Request\Method;
 use Sonic\Routing\RouteCollector;
 use Sonic\Routing\RouteMatch;
 use Sonic\Routing\RouteMatcher;
@@ -29,16 +29,16 @@ final class InstanceTest extends TestCase
      */
     public function testRouteInstance(): void
     {
-        $routeMatcher = new RouteMatcher('/', Request::GET);
+        $routeMatcher = new RouteMatcher('/', Method::GET);
         $matched = $routeMatcher->getMatched($this->routes);
         self::assertNotNull($matched);
         self::assertInstanceOf(RouteMatch::class, $matched);
 
-        $routeMatcher = new RouteMatcher('/book', Request::GET);
+        $routeMatcher = new RouteMatcher('/book', Method::GET);
         $matched = $routeMatcher->getMatched($this->routes);
         self::assertNull($matched);
 
-        $routeMatcher = new RouteMatcher('/book/1234', Request::POST);
+        $routeMatcher = new RouteMatcher('/book/1234', Method::POST);
         $matched = $routeMatcher->getMatched($this->routes);
         self::assertNotNull($matched);
         self::assertInstanceOf(RouteMatch::class, $matched);
@@ -46,11 +46,11 @@ final class InstanceTest extends TestCase
         self::assertEquals(['foo' => 'bar'], $matched->getRoute()->getHandler());
         self::assertEquals(['1234'], $matched->getParams());
 
-        $routeMatcher = new RouteMatcher('/book/1234', Request::DELETE);
+        $routeMatcher = new RouteMatcher('/book/1234', Method::DELETE);
         $matched = $routeMatcher->getMatched($this->routes);
         self::assertNull($matched);
 
-        $routeMatcher = new RouteMatcher('/any', Request::OPTIONS);
+        $routeMatcher = new RouteMatcher('/any', Method::OPTIONS);
         $matched = $routeMatcher->getMatched($this->routes);
         self::assertNotNull($matched);
         self::assertInstanceOf(RouteMatch::class, $matched);

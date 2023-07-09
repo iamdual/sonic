@@ -7,23 +7,32 @@
  */
 
 use Sonic\Event;
+use Sonic\Request\Method;
 
 final class RouteMatcher
 {
     private string $path;
-    private string $method;
+    private Method $method;
 
-    public function __construct(string $path, string $method)
+    /**
+     * @param string $path Request path
+     * @param Method $method Request method enumeration
+     */
+    public function __construct(string $path, Method $method)
     {
         $this->path = $path;
         $this->method = $method;
     }
 
+    /**
+     * @param callable $routes The route function came from Config/routes.php
+     * @return RouteMatch|null
+     */
     public function getMatched(callable $routes): ?RouteMatch
     {
         $routeCollector = new RouteCollector();
 
-        // Apply user specific routes
+        // Apply application specific routes
         $routes($routeCollector);
 
         // Apply event specific routes

@@ -12,21 +12,38 @@ final class Session
 {
     use Singleton;
 
+    /**
+     * @param string $key Session key
+     * @param mixed $value Session value
+     * @return void
+     */
     public function set(string $key, mixed $value): void
     {
         $_SESSION[$key] = $value;
     }
 
+    /**
+     * @param string $key Session key
+     * @param mixed|null $default Default return value
+     * @return mixed
+     */
     public function get(string $key, mixed $default = null): mixed
     {
         return $_SESSION[$key] ?? $default;
     }
 
+    /**
+     * @param string $key Session key
+     * @return bool
+     */
     public function has(string $key): bool
     {
         return isset($_SESSION[$key]);
     }
 
+    /**
+     * @return bool
+     */
     public function destroy(): bool
     {
         return session_destroy();

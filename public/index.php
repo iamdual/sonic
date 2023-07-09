@@ -6,8 +6,8 @@
  * @author  Ekin Karadeniz (iamdual@icloud.com)
  */
 
-if (PHP_MAJOR_VERSION < 8) {
-    die('Sonic only works with PHP >=8.0');
+if (PHP_VERSION_ID < 80100) {
+    die('Sonic only works with PHP >=8.1');
 }
 
 define('SONIC', __DIR__ . '/..');

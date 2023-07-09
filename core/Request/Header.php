@@ -30,64 +30,101 @@ final class Header
         }
     }
 
-    public function get($key): ?string
+    /**
+     * @param $key string Header key
+     * @param string|null $default Default return value
+     * @return string|null
+     */
+    public function get(string $key, ?string $default = null): ?string
     {
-        return $this->headers[strtolower($key)] ?? null;
+        return $this->headers[strtolower($key)] ?? $default;
     }
 
+    /**
+     * @return array Returns headers in key/value pair
+     */
     public function getAll(): array
     {
         return $this->headers;
     }
 
+    /**
+     * @return string|null Returns "Content-Type" header, if exists
+     */
     public function contentType(): ?string
     {
         return $this->headers['content-type'] ?? null;
     }
 
+    /**
+     * @return string|null Returns "User-Agent" header, if exists
+     */
     public function userAgent(): ?string
     {
         return $this->headers['user-agent'] ?? null;
     }
 
+    /**
+     * @return string|null Returns "Accept" header, if exists
+     */
     public function accept(): ?string
     {
         return $this->headers['accept'] ?? null;
     }
 
+    /**
+     * @return bool Check is client accepts JSON
+     */
+    public function acceptsJson(): bool
+    {
+        if ($accept = $this->accept()) {
+            return str_starts_with(strtolower($accept), 'application/json');
+        }
+        return false;
+    }
+
+    /**
+     * @return string|null Returns "Accept-Language" header, if exists
+     */
     public function acceptLanguage(): ?string
     {
         return $this->headers['accept-language'] ?? null;
     }
 
+    /**
+     * @return string|null Returns "Accept-Encoding" header, if exists
+     */
     public function acceptEncoding(): ?string
     {
         return $this->headers['accept-encoding'] ?? null;
     }
 
-    public function hasNoCache(): bool
+    /**
+     * @return string|null Returns "Host" header, if exists
+     */
+    public function httpHost(): ?string
     {
-        return $this->get('cache-control') === 'no-cache';
+        return $this->headers['host'] ?? null;
     }
 
-    public function isJsonRequest(): bool
+    /**
+     * @return string|null Returns "Host" header, but only its hostname
+     */
+    public function domain(): ?string
     {
-        return str_starts_with(strtolower($this->contentType()), 'application/json');
+        if (!$http_host = $this->httpHost()) {
+            return null;
+        }
+        return parse_url($http_host, PHP_URL_HOST);
     }
 
-    public function isXmlHttpRequest(): bool
+    /**
+     * @param bool $use_headers Find the client IP address by looking at the header, enabled by default
+     * @return string|null
+     */
+    public function clientIp(bool $use_headers = true): ?string
     {
-        return $this->get('x-requested-with') === 'XMLHttpRequest';
-    }
-
-    public function acceptsJson(): bool
-    {
-        return str_starts_with(strtolower($this->accept()), 'application/json');
-    }
-
-    public function clientIp(bool $use_headers = true): string
-    {
-        $ip = $_SERVER['REMOTE_ADDR'];
+        $ip = $_SERVER['REMOTE_ADDR'] ?? null;
 
         if ($use_headers) {
             $headers = [

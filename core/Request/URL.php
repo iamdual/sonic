@@ -6,7 +6,7 @@
  * @author  Ekin Karadeniz (iamdual@icloud.com)
  */
 
-use Sonic\Config\Manager;
+use Sonic\Config\Config;
 use Sonic\Singleton;
 
 final class URL
@@ -36,7 +36,7 @@ final class URL
         $segments = explode(self::SEPARATOR, $path_side);
         array_shift($segments); // explode('/', '/') == ['', '']
 
-        $i18n_config = Manager::getInstance('i18n');
+        $i18n_config = Config::getInstance('i18n');
         $this->languageCode = $i18n_config->get('default');
         if ($i18n_config->get('enabled', false)) {
             if (in_array($segments[0], $i18n_config->get('languages', []), true)) {
@@ -59,31 +59,50 @@ final class URL
         $this->segments = $segments;
     }
 
+    /**
+     * @return string
+     */
     public function uri(): string
     {
         return $this->uri;
     }
 
+    /**
+     * @return string
+     */
     public function path(): string
     {
         return $this->path;
     }
 
+    /**
+     * @param int $index Segment index
+     * @return string|null Returns the segment of the path
+     */
     public function segment(int $index): ?string
     {
         return $this->segments[$index] ?? null;
     }
 
+    /**
+     * @return array Returns segments of the path
+     */
     public function segments(): array
     {
         return $this->segments;
     }
 
+    /**
+     * @return string|null Returns chosen language from URL
+     */
     public function languageCode(): ?string
     {
         return $this->languageCode ?? null;
     }
 
+    /**
+     * @return string Returns language prefix
+     */
     public function languagePrefix(): string
     {
         return $this->languagePrefix ?? '';

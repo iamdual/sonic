@@ -6,19 +6,24 @@
  * @author  Ekin Karadeniz (iamdual@icloud.com)
  */
 
-use Sonic\Config\Manager;
+use Sonic\Config\Config;
 
 final class Redis
 {
     private static array $instance;
 
+    /**
+     * @param string $conf_id Redis config ID
+     * @return \Redis
+     * @throws \RedisException
+     */
     public static function getInstance(string $conf_id = 'default'): \Redis
     {
         if (isset(self::$instance[$conf_id])) {
             return self::$instance[$conf_id];
         }
 
-        $db_conf = Manager::getInstance('redis')->getParams();
+        $db_conf = Config::getInstance('redis')->getParams();
 
         $address = $db_conf[$conf_id]['address'];
         $port = $db_conf[$conf_id]['port'] ?? null;

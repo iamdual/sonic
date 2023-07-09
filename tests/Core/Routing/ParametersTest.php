@@ -3,7 +3,7 @@
 namespace Sonic\Tests\Core\Routing;
 
 use PHPUnit\Framework\TestCase;
-use Sonic\Request;
+use Sonic\Request\Method;
 use Sonic\Routing\RouteCollector;
 use Sonic\Routing\RouteMatch;
 use Sonic\Routing\RouteMatcher;
@@ -25,23 +25,40 @@ final class ParametersTest extends TestCase
     /**
      * @covers \Sonic\Routing\RouteMatcher
      */
-    public function testRouteInstance(): void
+    public function testRouteParameter(): void
     {
-        $routeMatcher = new RouteMatcher('/p/n2468/shello/a@world', Request::POST);
+        $routeMatcher = new RouteMatcher('/p/n2468/shello/a@world', Method::POST);
         $matched = $routeMatcher->getMatched($this->routes);
         self::assertNotNull($matched);
         self::assertInstanceOf(RouteMatch::class, $matched);
         self::assertEquals('/p/n([0-9]+)/s([a-z]+)/a(.+)', $matched->getRoute()->getRule());
         self::assertEquals(['2468', 'hello', '@world'], $matched->getParams());
+        self::assertEquals([], $matched->getRoute()->getHandler());
+        self::assertEquals([Method::POST], $matched->getRoute()->getMethods());
+    }
 
-        $routeMatcher = new RouteMatcher('/a*b', Request::PUT);
+    /**
+     * @covers \Sonic\Routing\RouteMatcher
+     */
+    public function testRouteParameter2(): void
+    {
+        $routeMatcher = new RouteMatcher('/a*b', Method::PUT);
         $matched = $routeMatcher->getMatched($this->routes);
         self::assertNull($matched);
+    }
 
-        $routeMatcher = new RouteMatcher('/ab', Request::PUT);
+    /**
+     * @covers \Sonic\Routing\RouteMatcher
+     */
+    public function testRouteParameter3(): void
+    {
+        $routeMatcher = new RouteMatcher('/ab', Method::PUT);
         $matched = $routeMatcher->getMatched($this->routes);
         self::assertNotNull($matched);
         self::assertInstanceOf(RouteMatch::class, $matched);
         self::assertEquals('/a*b', $matched->getRoute()->getRule());
+        self::assertEquals([], $matched->getParams());
+        self::assertEquals([], $matched->getRoute()->getHandler());
+        self::assertEquals([Method::PUT], $matched->getRoute()->getMethods());
     }
 }

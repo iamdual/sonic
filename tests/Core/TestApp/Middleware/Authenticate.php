@@ -10,7 +10,7 @@ class Authenticate extends Middleware
 {
     public function handler(): bool
     {
-        if (Request::get('token') === 'iamdual') {
+        if (Request::get('token-for-test') === 'iamdual') {
             return true; // continue
         }
 

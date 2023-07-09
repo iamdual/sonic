@@ -7,8 +7,7 @@
  */
 
 use App\Controller\Errors;
-use Sonic\Config\Manager;
-use Sonic\Routing\Route;
+use Sonic\Config\Config;
 use Sonic\Routing\RouteMatcher;
 
 final class Sonic
@@ -23,16 +22,16 @@ final class Sonic
         return call_user_func_array([new $class, $method], $params);
     }
 
-    private function triggerError(string $method): void
+    private function triggerError(string $error_type): void
     {
-        call_user_func([new Errors(), $method]);
+        call_user_func([new Errors(), $error_type]);
     }
 
     private function initSessionAndLocale(): void
     {
-        $session_config = Manager::getInstance('session');
-        $app_config = Manager::getInstance('app');
-        $i18n_config = Manager::getInstance('i18n');
+        $session_config = Config::getInstance('session');
+        $app_config = Config::getInstance('app');
+        $i18n_config = Config::getInstance('i18n');
 
         // Start session if enabled
         if ($session_config->get('enabled', false)) {

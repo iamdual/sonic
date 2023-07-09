@@ -3,7 +3,7 @@
 namespace Sonic\Tests\Core\Config;
 
 use PHPUnit\Framework\TestCase;
-use Sonic\Config\Manager;
+use Sonic\Config\Config;
 
 final class ConfigParamsTest extends TestCase
 {
@@ -11,11 +11,11 @@ final class ConfigParamsTest extends TestCase
 
     /**
      * @runInSeparateProcess
-     * @covers \Sonic\Config\Manager
+     * @covers \Sonic\Config\Config
      */
     public function testConfigApp(): void
     {
-        $app_config = new Manager('app', self::CONFIG_DIR);
+        $app_config = new Config('app', self::CONFIG_DIR);
         $this->assertNotEmpty($app_config->getParams());
 
         $this->assertEquals('Antarctica/Macquarie', $app_config->get('timezone'));
@@ -29,11 +29,11 @@ final class ConfigParamsTest extends TestCase
 
     /**
      * @runInSeparateProcess
-     * @covers \Sonic\Config\Manager
+     * @covers \Sonic\Config\Config
      */
     public function testConfigCore(): void
     {
-        $config_core = new Manager('core', self::CONFIG_DIR);
+        $config_core = new Config('core', self::CONFIG_DIR);
         $this->assertNotEmpty($config_core->getParams());
 
         $this->assertFalse($config_core->get('env.caching'));
