@@ -6,7 +6,7 @@
  * @author  Ekin Karadeniz (iamdual@icloud.com)
  */
 
-use Sonic\Request;
+use Sonic\Request\Method;
 
 final class RouteCollector
 {
@@ -14,6 +14,12 @@ final class RouteCollector
     private ?string $group_path = null;
     private ?array $group_middleware = null;
 
+    /**
+     * @param string $path Group request path
+     * @param callable $callback Group callback function
+     * @param array|null $middleware Group middleware classes
+     * @return void
+     */
     public function group(string $path, callable $callback, ?array $middleware = null): void
     {
         $this->group_path = $path;
@@ -23,6 +29,13 @@ final class RouteCollector
         $this->group_middleware = null;
     }
 
+    /**
+     * @param string $path Route path
+     * @param array $handler Route handler
+     * @param Method[]|null $methods Allowed methods
+     * @param array|null $middleware Middleware classes
+     * @return void
+     */
     public function route(string $path, array $handler, ?array $methods = null, ?array $middleware = null): void
     {
         $path = $this->group_path . $path;
@@ -42,40 +55,42 @@ final class RouteCollector
 
     public function get(string $path, array $handler, ?array $middleware = null): void
     {
-        $this->route($path, $handler, methods: [Request::GET], middleware: $middleware);
+        $this->route($path, $handler, methods: [Method::GET], middleware: $middleware);
     }
 
     public function post(string $path, array $handler, ?array $middleware = null): void
     {
-        $this->route($path, $handler, methods: [Request::POST], middleware: $middleware);
+        $this->route($path, $handler, methods: [Method::POST], middleware: $middleware);
     }
 
     public function put(string $path, array $handler, ?array $middleware = null): void
     {
-        $this->route($path, $handler, methods: [Request::PUT], middleware: $middleware);
+        $this->route($path, $handler, methods: [Method::PUT], middleware: $middleware);
     }
 
     public function patch(string $path, array $handler, ?array $middleware = null): void
     {
-        $this->route($path, $handler, methods: [Request::PATCH], middleware: $middleware);
+        $this->route($path, $handler, methods: [Method::PATCH], middleware: $middleware);
     }
 
     public function delete(string $path, array $handler, ?array $middleware = null): void
     {
-        $this->route($path, $handler, methods: [Request::DELETE], middleware: $middleware);
+        $this->route($path, $handler, methods: [Method::DELETE], middleware: $middleware);
     }
 
     public function head(string $path, array $handler, ?array $middleware = null): void
     {
-        $this->route($path, $handler, methods: [Request::HEAD], middleware: $middleware);
+        $this->route($path, $handler, methods: [Method::HEAD], middleware: $middleware);
     }
 
     public function options(string $path, array $handler, ?array $middleware = null): void
     {
-        $this->route($path, $handler, methods: [Request::OPTIONS], middleware: $middleware);
+        $this->route($path, $handler, methods: [Method::OPTIONS], middleware: $middleware);
     }
 
-    /** @return Route[] */
+    /**
+     * @return Route[] Returns all of routes
+     */
     public function getRoutes(): array
     {
         return self::$routes;

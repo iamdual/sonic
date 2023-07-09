@@ -59,31 +59,50 @@ final class URL
         $this->segments = $segments;
     }
 
+    /**
+     * @return string
+     */
     public function uri(): string
     {
         return $this->uri;
     }
 
+    /**
+     * @return string
+     */
     public function path(): string
     {
         return $this->path;
     }
 
+    /**
+     * @param int $index Segment index
+     * @return string|null Returns the segment of the path
+     */
     public function segment(int $index): ?string
     {
         return $this->segments[$index] ?? null;
     }
 
+    /**
+     * @return array Returns segments of the path
+     */
     public function segments(): array
     {
         return $this->segments;
     }
 
+    /**
+     * @return string|null Returns chosen language from URL
+     */
     public function languageCode(): ?string
     {
         return $this->languageCode ?? null;
     }
 
+    /**
+     * @return string Returns language prefix
+     */
     public function languagePrefix(): string
     {
         return $this->languagePrefix ?? '';

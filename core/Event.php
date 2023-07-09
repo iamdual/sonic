@@ -9,11 +9,21 @@ final class Event
 {
     private static array $events = [];
 
+    /**
+     * @param string $key Event key
+     * @param callable $callback Event callback function
+     * @return void
+     */
     public static function add(string $key, callable $callback): void
     {
         self::$events[$key][] = $callback;
     }
 
+    /**
+     * @param string $key Event key
+     * @param ...$args
+     * @return void
+     */
     public static function call(string $key, ...$args): void
     {
         if (empty(self::$events[$key])) {

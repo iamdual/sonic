@@ -8,7 +8,6 @@
 
 use App\Controller\Errors;
 use Sonic\Config\Config;
-use Sonic\Routing\Route;
 use Sonic\Routing\RouteMatcher;
 
 final class Sonic
@@ -23,9 +22,9 @@ final class Sonic
         return call_user_func_array([new $class, $method], $params);
     }
 
-    private function triggerError(string $method): void
+    private function triggerError(string $error_type): void
     {
-        call_user_func([new Errors(), $method]);
+        call_user_func([new Errors(), $error_type]);
     }
 
     private function initSessionAndLocale(): void

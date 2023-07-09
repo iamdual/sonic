@@ -3,7 +3,7 @@
 namespace Sonic\Tests\Core\Routing;
 
 use PHPUnit\Framework\TestCase;
-use Sonic\Request;
+use Sonic\Request\Method;
 use Sonic\Routing\RouteCollector;
 use Sonic\Routing\RouteMatch;
 use Sonic\Routing\RouteMatcher;
@@ -31,7 +31,7 @@ final class HandlerTest extends TestCase
      */
     public function testBookListJsonResponse(): void
     {
-        $routeMatcher = new RouteMatcher('/book', Request::GET);
+        $routeMatcher = new RouteMatcher('/book', Method::GET);
         $matched = $routeMatcher->getMatched($this->routes);
         self::assertNotNull($matched);
         self::assertInstanceOf(RouteMatch::class, $matched);
@@ -57,7 +57,7 @@ final class HandlerTest extends TestCase
      */
     public function testBookInsertJsonResponse(): void
     {
-        $routeMatcher = new RouteMatcher('/book/insert', Request::POST);
+        $routeMatcher = new RouteMatcher('/book/insert', Method::POST);
         $matched = $routeMatcher->getMatched($this->routes);
         self::assertNotNull($matched);
         self::assertInstanceOf(RouteMatch::class, $matched);
@@ -82,7 +82,7 @@ final class HandlerTest extends TestCase
      */
     public function testBookDetailsJsonResponse(): void
     {
-        $routeMatcher = new RouteMatcher('/book/2468', Request::GET);
+        $routeMatcher = new RouteMatcher('/book/2468', Method::GET);
         $matched = $routeMatcher->getMatched($this->routes);
         self::assertNotNull($matched);
         self::assertInstanceOf(RouteMatch::class, $matched);

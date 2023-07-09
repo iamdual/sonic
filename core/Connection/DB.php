@@ -12,6 +12,10 @@ final class DB
 {
     private static array $instance;
 
+    /**
+     * @param string $conf_id Database config ID
+     * @return \PDO
+     */
     public static function getInstance(string $conf_id = 'default'): \PDO
     {
         if (isset(self::$instance[$conf_id])) {

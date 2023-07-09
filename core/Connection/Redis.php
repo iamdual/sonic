@@ -12,6 +12,11 @@ final class Redis
 {
     private static array $instance;
 
+    /**
+     * @param string $conf_id Redis config ID
+     * @return \Redis
+     * @throws \RedisException
+     */
     public static function getInstance(string $conf_id = 'default'): \Redis
     {
         if (isset(self::$instance[$conf_id])) {

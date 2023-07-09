@@ -5,36 +5,49 @@
  * @link    https://github.com/iamdual/sonic
  * @author  Ekin Karadeniz (iamdual@icloud.com)
  */
+
+use Sonic\Request\Method;
+
 final class Request
 {
-    public const GET = 'GET';
-    public const POST = 'POST';
-    public const PUT = 'PUT';
-    public const PATCH = 'PATCH';
-    public const DELETE = 'DELETE';
-    public const HEAD = 'HEAD';
-    public const OPTIONS = 'OPTIONS';
-
+    /**
+     * @return Request\Header
+     */
     public static function header(): Request\Header
     {
         return Request\Header::getInstance();
     }
 
+    /**
+     * @return Request\URL
+     */
     public static function url(): Request\URL
     {
         return Request\URL::getInstance();
     }
 
+    /**
+     * @return Request\Session
+     */
     public static function session(): Request\Session
     {
         return Request\Session::getInstance();
     }
 
+    /**
+     * @return Request\Cookie
+     */
     public static function cookie(): Request\Cookie
     {
         return Request\Cookie::getInstance();
     }
 
+    /**
+     * @param string $key Key for query parameter
+     * @param mixed|null $default Default return value
+     * @param bool $string_only Prevent to return as an array, disabled by default
+     * @return mixed
+     */
     public static function get(string $key, mixed $default = null, bool $string_only = false): mixed
     {
         if (isset($_GET[$key])) {
@@ -46,6 +59,12 @@ final class Request
         return $default;
     }
 
+    /**
+     * @param string $key Key for form body
+     * @param mixed|null $default Default return value
+     * @param bool $string_only Prevent to return as an array, disabled by default
+     * @return mixed
+     */
     public static function post(string $key, mixed $default = null, bool $string_only = false): mixed
     {
         if (isset($_POST[$key])) {
@@ -57,16 +76,27 @@ final class Request
         return $default;
     }
 
+    /**
+     * @param string $key Key for server variables
+     * @param string|null $default
+     * @return mixed
+     */
     public static function server(string $key, ?string $default = null): mixed
     {
         return $_SERVER[$key] ?? $default;
     }
 
+    /**
+     * @return string|null Returns raw requested body
+     */
     public static function rawData(): ?string
     {
         return file_get_contents('php://input') ?: null;
     }
 
+    /**
+     * @return mixed Returns requested JSON data
+     */
     public static function json(): mixed
     {
         $decoded = json_decode(self::rawData());
@@ -76,12 +106,19 @@ final class Request
         return null;
     }
 
-    public static function method(): ?string
+    /**
+     * @return Method|null Returns request method enumeration
+     */
+    public static function method(): ?Method
     {
-        return $_SERVER['REQUEST_METHOD'] ?? null;
+        return $_SERVER['REQUEST_METHOD'] ? Method::from(strtoupper($_SERVER['REQUEST_METHOD'])) : null;
     }
 
-    public static function isMethod(string $method): bool
+    /**
+     * @param Method $method Request method
+     * @return bool Check is requested method equals as specified
+     */
+    public static function isMethod(Method $method): bool
     {
         return self::method() === $method;
     }
