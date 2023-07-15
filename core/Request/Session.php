@@ -42,6 +42,17 @@ final class Session
     }
 
     /**
+     * Delete a session variable by its key
+     * @param string $key Session key
+     * @return void
+     */
+    public function delete(string $key): void
+    {
+        unset($_SESSION[$key]);
+    }
+
+    /**
+     * Destroy current session
      * @return bool
      */
     public function destroy(): bool
