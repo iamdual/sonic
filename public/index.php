@@ -10,9 +10,9 @@ if (PHP_VERSION_ID < 80100) {
     die('Sonic only works with PHP >=8.1');
 }
 
-define('SONIC', __DIR__ . '/..');
-define('APP', SONIC . '/app');
-define('CORE', SONIC . '/core');
+const SONIC = __DIR__ . '/..';
+const APP = SONIC . '/app';
+const CORE = SONIC . '/core';
 require CORE . '/bootstrap.php';
 
 (new \Sonic\Sonic())->response();

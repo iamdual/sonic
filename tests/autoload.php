@@ -1,5 +1,5 @@
 <?php
-define('SONIC', __DIR__ . '/..');
-define('APP', SONIC . '/app');
-define('CORE', SONIC . '/core');
+const SONIC = __DIR__ . '/..';
+const APP = SONIC . '/app';
+const CORE = SONIC . '/core';
 require CORE . '/bootstrap.php';
