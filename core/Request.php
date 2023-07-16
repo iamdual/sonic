@@ -113,13 +113,4 @@ final class Request
     {
         return $_SERVER['REQUEST_METHOD'] ? Method::from(strtoupper($_SERVER['REQUEST_METHOD'])) : null;
     }
-
-    /**
-     * @param Method $method Request method
-     * @return bool Check is requested method equals as specified
-     */
-    public static function isMethod(Method $method): bool
-    {
-        return self::method() === $method;
-    }
 }
