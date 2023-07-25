@@ -55,7 +55,7 @@ final class Cookie
     public function delete(string $key): bool
     {
         unset($_COOKIE[$key]);
-        return setcookie($key, '', -1);
+        return $this->set($key, '', ['expires' => -1]);
     }
 
     /**
