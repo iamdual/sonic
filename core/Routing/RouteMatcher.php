@@ -32,11 +32,11 @@ final class RouteMatcher
     {
         $routeCollector = new RouteCollector();
 
-        // Apply application specific routes
+        // Apply the application specific routes
         $routes($routeCollector);
 
-        // Apply event specific routes
-        // Objects are always passed by reference. So, RouteCollector passing as an argument to the given callback.
+        // Apply the event specific routes
+        // Objects are always passed by reference. So, RouteCollector is passed as an argument to the given callback.
         Event::call('core.routes', $routeCollector);
 
         // Try to match with route rules
@@ -45,7 +45,7 @@ final class RouteMatcher
             if (preg_match($route_rule_pattern, $this->path, $params)) {
 
                 if (!empty($route->getMethods())
-                    && !in_array($this->method, $route->getMethods(), true)) {
+                  && !in_array($this->method, $route->getMethods(), true)) {
                     continue;
                 }
 
