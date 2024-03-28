@@ -7,6 +7,7 @@
  */
 
 use Sonic\Request\Method;
+use Sonic\Request\URL;
 
 final class RouteCollector
 {
@@ -39,6 +40,8 @@ final class RouteCollector
     public function route(string $path, array $handler, ?array $methods = null, ?array $middleware = null): void
     {
         $path = $this->group_path . $path;
+        $path = rtrim($path, URL::PATH_SEPARATOR);
+
         if (empty($middleware) && !empty($this->group_middleware)) {
             $middleware = $this->group_middleware;
         }

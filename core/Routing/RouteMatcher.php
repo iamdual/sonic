@@ -8,6 +8,7 @@
 
 use Sonic\Event;
 use Sonic\Request\Method;
+use Sonic\Request\URL;
 
 final class RouteMatcher
 {
@@ -20,6 +21,7 @@ final class RouteMatcher
      */
     public function __construct(string $path, Method $method)
     {
+        $path = rtrim($path, URL::PATH_SEPARATOR);
         $this->path = $path;
         $this->method = $method;
     }

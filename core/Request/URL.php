@@ -19,8 +19,8 @@ final class URL
     private ?string $languageCode;
     private string $languagePrefix;
 
-    private const SEPARATOR = '/';
-    private const QUESTION_MARK = '?';
+    public const PATH_SEPARATOR = '/';
+    public const QUERY_STRING_SEPARATOR = '?';
 
     private function __construct()
     {
@@ -29,11 +29,11 @@ final class URL
         } elseif (isset($_GET['_path'])) {
             $request_uri = $_GET['_path'];
         } else {
-            $request_uri = self::SEPARATOR;
+            $request_uri = self::PATH_SEPARATOR;
         }
 
-        $path_side = explode(self::QUESTION_MARK, $request_uri, 2)[0];
-        $segments = explode(self::SEPARATOR, $path_side);
+        $path_side = explode(self::QUERY_STRING_SEPARATOR, $request_uri, 2)[0];
+        $segments = explode(self::PATH_SEPARATOR, $path_side);
         array_shift($segments); // explode('/', '/') == ['', '']
 
         $i18n_config = Config::getInstance('i18n');
@@ -41,17 +41,14 @@ final class URL
         if ($i18n_config->get('enabled', false)) {
             if (in_array($segments[0], $i18n_config->get('languages', []), true)) {
                 $this->languageCode = $segments[0];
-                $this->languagePrefix = $segments[0] . self::SEPARATOR;
+                $this->languagePrefix = $segments[0] . self::PATH_SEPARATOR;
                 array_shift($segments);
             }
         }
 
         $path = '';
         foreach ($segments as $i => $segment) {
-            $path .= self::SEPARATOR . $segment;
-        }
-        if (empty($path)) {
-            $path = self::SEPARATOR;
+            $path .= self::PATH_SEPARATOR . $segment;
         }
 
         $this->uri = $request_uri;
