@@ -94,8 +94,17 @@ final class RouteCollector
     /**
      * @return Route[] Returns all of routes
      */
-    public function getRoutes(): array
+    static public function getRoutes(): array
     {
         return self::$routes;
+    }
+
+    /**
+     * Flushes routes from memory. This is commonly used in tests.
+     * @return void
+     */
+    static public function flushRoutes(): void
+    {
+        self::$routes = [];
     }
 }
