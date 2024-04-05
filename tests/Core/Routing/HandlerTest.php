@@ -24,6 +24,11 @@ final class HandlerTest extends TestCase
         };
     }
 
+    protected function tearDown(): void
+    {
+        RouteCollector::flushRoutes();
+    }
+
     /**
      * @runInSeparateProcess
      * @covers \Sonic\Routing\RouteMatcher

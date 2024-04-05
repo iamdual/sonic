@@ -24,6 +24,11 @@ final class InstanceTest extends TestCase
         };
     }
 
+    protected function tearDown(): void
+    {
+        RouteCollector::flushRoutes();
+    }
+
     /**
      * @covers \Sonic\Routing\RouteMatcher
      */

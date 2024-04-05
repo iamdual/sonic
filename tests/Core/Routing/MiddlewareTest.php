@@ -26,6 +26,11 @@ final class MiddlewareTest extends TestCase
         };
     }
 
+    protected function tearDown(): void
+    {
+        RouteCollector::flushRoutes();
+    }
+
     /**
      * @runInSeparateProcess
      * @covers \Sonic\Routing\RouteMatcher
