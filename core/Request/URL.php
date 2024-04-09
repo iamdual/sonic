@@ -17,7 +17,6 @@ final class URL
     private string $path;
     private array $segments;
     private ?string $languageCode;
-    private string $languagePrefix;
 
     public const PATH_SEPARATOR = '/';
     public const QUERY_STRING_SEPARATOR = '?';
