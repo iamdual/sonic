@@ -17,6 +17,7 @@ final class URL
     private string $path;
     private array $segments;
     private ?string $languageCode;
+    private ?string $defaultLanguage;
 
     public const PATH_SEPARATOR = '/';
     public const QUERY_STRING_SEPARATOR = '?';
@@ -42,10 +43,13 @@ final class URL
 
         $i18n_config = Config::getInstance('i18n');
         if ($i18n_config->get('enabled', false)) {
+            $this->defaultLanguage = $i18n_config->get('default');
             $languages = $i18n_config->get('languages', []);
             if (isset($segments[0]) && in_array($segments[0], $languages, strict: true)) {
                 $this->languageCode = $segments[0];
                 array_shift($segments);
+            } else {
+                $this->languageCode = $this->defaultLanguage;
             }
         }
 
@@ -100,6 +104,9 @@ final class URL
      */
     public function languagePrefix(): string
     {
+        if ($this->languageCode === $this->defaultLanguage) {
+            return '';
+        }
         return $this->languageCode ? $this->languageCode . self::PATH_SEPARATOR : '';
     }
 }

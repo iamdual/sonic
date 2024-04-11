@@ -42,8 +42,12 @@ final class RouteCollector
         $path = $this->group_path . $path;
         $path = rtrim($path, URL::PATH_SEPARATOR);
 
-        if (empty($middleware) && !empty($this->group_middleware)) {
-            $middleware = $this->group_middleware;
+        if (!empty($this->group_middleware)) {
+            if (!empty($middleware)) {
+                $middleware = array_merge($middleware, $this->group_middleware);
+            } else {
+                $middleware = $this->group_middleware;
+            }
         }
 
         $route = new Route($path, $handler);

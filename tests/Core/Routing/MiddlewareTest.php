@@ -9,6 +9,9 @@ use Sonic\Routing\RouteMatch;
 use Sonic\Routing\RouteMatcher;
 use Sonic\Tests\Core\TestApp\Controller\RestfulBook;
 use Sonic\Tests\Core\TestApp\Middleware\Authenticate;
+use Sonic\Tests\Core\TestApp\Middleware\Secondary;
+
+use function PHPUnit\Framework\assertIsArray;
 
 final class MiddlewareTest extends TestCase
 {
@@ -18,11 +21,11 @@ final class MiddlewareTest extends TestCase
     {
         $this->routes = static function (RouteCollector $routing) {
             $routing->group('/secret-book', function () use ($routing) {
-                $routing->get('', [RestfulBook::class, 'book_list']);
+                $routing->get('/', [RestfulBook::class, 'book_list'], middleware: [Secondary::class]);
                 $routing->put('/insert', [RestfulBook::class, 'book_insert']);
                 $routing->route('/([0-9]+)', [RestfulBook::class, 'book_details'], [Method::GET, Method::HEAD]);
             }, middleware: [Authenticate::class]);
-            $routing->get('/open', [RestfulBook::class, 'book_list']);
+            $routing->get('/public', [RestfulBook::class, 'book_list']);
         };
     }
 
@@ -120,16 +123,66 @@ final class MiddlewareTest extends TestCase
     /**
      * @runInSeparateProcess
      * @covers \Sonic\Routing\RouteMatcher
-     * @covers \Sonic\Tests\Core\TestApp\Controller\RestfulBook
      */
-    public function testOpenJsonResponse(): void
+    public function testPublicJsonResponse(): void
     {
-        $routeMatcher = new RouteMatcher('/open', Method::GET);
+        $routeMatcher = new RouteMatcher('/public', Method::GET);
         $matched = $routeMatcher->getMatched($this->routes);
         self::assertNotNull($matched);
         self::assertInstanceOf(RouteMatch::class, $matched);
 
         $middleware = $matched->getRoute()->getMiddleware();
         self::assertNull($middleware);
+    }
+
+    /**
+     * @runInSeparateProcess
+     * @covers \Sonic\Routing\RouteMatcher
+     */
+    public function testMiddlewareList(): void
+    {
+        $routeMatcher = new RouteMatcher('/secret-book', Method::GET);
+        $matched = $routeMatcher->getMatched($this->routes);
+        self::assertNotNull($matched);
+        self::assertInstanceOf(RouteMatch::class, $matched);
+
+        $middleware = $matched->getRoute()->getMiddleware();
+        self::assertNotNull($middleware);
+        self::assertIsArray($middleware);
+        self::assertTrue(in_array(Authenticate::class, $middleware));
+        self::assertTrue(in_array(Secondary::class, $middleware));
+    }
+
+    /**
+     * @runInSeparateProcess
+     * @covers \Sonic\Routing\RouteMatcher
+     */
+    public function testMiddlewareList2(): void
+    {
+        $routeMatcher = new RouteMatcher('/secret-book/insert', Method::PUT);
+        $matched = $routeMatcher->getMatched($this->routes);
+        self::assertNotNull($matched);
+        self::assertInstanceOf(RouteMatch::class, $matched);
+
+        $middleware = $matched->getRoute()->getMiddleware();
+        self::assertNotNull($middleware);
+        self::assertIsArray($middleware);
+        self::assertTrue(in_array(Authenticate::class, $middleware));
+        self::assertFalse(in_array(Secondary::class, $middleware));
+    }
+
+    /**
+     * @runInSeparateProcess
+     * @covers \Sonic\Routing\RouteMatcher
+     */
+    public function testMiddlewareListEmpty(): void
+    {
+        $routeMatcher = new RouteMatcher('/public', Method::GET);
+        $matched = $routeMatcher->getMatched($this->routes);
+        self::assertNotNull($matched);
+        self::assertInstanceOf(RouteMatch::class, $matched);
+
+        $middleware = $matched->getRoute()->getMiddleware();
+        self::assertEmpty($middleware);
     }
 }
