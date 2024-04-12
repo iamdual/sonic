@@ -25,3 +25,8 @@ function __(string $key, string $domain): string
 {
     return \dgettext($domain, $key);
 }
+
+function db($conf_id = 'default'): PDO
+{
+    return \Sonic\Connection\DB::getInstance($conf_id);
+}
