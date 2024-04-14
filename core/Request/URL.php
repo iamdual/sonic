@@ -16,8 +16,8 @@ final class URL
     private string $uri;
     private string $path;
     private array $segments;
-    private ?string $languageCode;
-    private ?string $defaultLanguage;
+    private ?string $languageCode = null;
+    private ?string $defaultLanguage = null;
 
     public const PATH_SEPARATOR = '/';
     public const QUERY_STRING_SEPARATOR = '?';
@@ -96,7 +96,7 @@ final class URL
      */
     public function languageCode(): ?string
     {
-        return $this->languageCode ?? null;
+        return $this->languageCode;
     }
 
     /**
@@ -104,9 +104,9 @@ final class URL
      */
     public function languagePrefix(): string
     {
-        if ($this->languageCode === $this->defaultLanguage) {
+        if (!$this->languageCode || $this->languageCode === $this->defaultLanguage) {
             return '';
         }
-        return $this->languageCode ? $this->languageCode . self::PATH_SEPARATOR : '';
+        return $this->languageCode . self::PATH_SEPARATOR;
     }
 }

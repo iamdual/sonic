@@ -17,7 +17,7 @@ final class HandlerTest extends TestCase
     {
         $this->routes = static function (RouteCollector $routing) {
             $routing->group('/book', function () use ($routing) {
-                $routing->get('', [RestfulBook::class, 'book_list']);
+                $routing->get('/', [RestfulBook::class, 'book_list']);
                 $routing->post('/insert', [RestfulBook::class, 'book_insert']);
                 $routing->get('/([0-9]+)', [RestfulBook::class, 'book_details']);
             });

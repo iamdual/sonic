@@ -22,10 +22,10 @@ final class MiddlewareTest extends TestCase
         $this->routes = static function (RouteCollector $routing) {
             $routing->group('/secret-book', function () use ($routing) {
                 $routing->get('/', [RestfulBook::class, 'book_list'], middleware: [Secondary::class]);
-                $routing->put('/insert', [RestfulBook::class, 'book_insert']);
+                $routing->put('/insert/', [RestfulBook::class, 'book_insert']);
                 $routing->route('/([0-9]+)', [RestfulBook::class, 'book_details'], [Method::GET, Method::HEAD]);
             }, middleware: [Authenticate::class]);
-            $routing->get('/public', [RestfulBook::class, 'book_list']);
+            $routing->get('/public/', [RestfulBook::class, 'book_list']);
         };
     }
 

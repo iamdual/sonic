@@ -23,13 +23,13 @@ final class Redis
             return self::$instance[$conf_id];
         }
 
-        $db_conf = Config::getInstance('redis')->getParams();
+        $params = Config::getInstance('redis')->getParams();
 
-        $address = $db_conf[$conf_id]['address'];
-        $port = $db_conf[$conf_id]['port'] ?? null;
-        $database = $db_conf[$conf_id]['database'] ?? null;
-        $auth = $db_conf[$conf_id]['auth'] ?? null;
-        $prefix = $db_conf[$conf_id]['prefix'] ?? null;
+        $address = $params[$conf_id]['address'];
+        $port = $params[$conf_id]['port'] ?? null;
+        $database = $params[$conf_id]['database'] ?? null;
+        $auth = $params[$conf_id]['auth'] ?? null;
+        $prefix = $params[$conf_id]['prefix'] ?? null;
 
         $connection = new \Redis();
         $connection->connect($address, $port);

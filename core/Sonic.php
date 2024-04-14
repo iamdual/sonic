@@ -45,7 +45,7 @@ final class Sonic
 
         // Set i18n via gettext if enabled
         if ($i18n_config->get('enabled', false)) {
-            $i18n_lang = Request::url()->languageCode() ?: $i18n_config->get('default');
+            $i18n_lang = Request::url()->languageCode();
             $i18n_charset = $i18n_config->get('charset', 'UTF-8');
             $i18n_locales = $i18n_config->get('locales', []);
             $i18n_locale = $i18n_locales[$i18n_lang] ?? $i18n_lang;
