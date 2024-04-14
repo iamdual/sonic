@@ -24,11 +24,11 @@ final class DB
 
         $params = Config::getInstance('pdo')->getParams();
 
-        $pdo_dsn = $params[$conf_id]['dsn'];
+        $dsn = $params[$conf_id]['dsn'];
         $username = $params[$conf_id]['username'] ?? null;
         $password = $params[$conf_id]['password'] ?? null;
 
-        $connection = new \PDO($pdo_dsn, $username, $password);
+        $connection = new \PDO($dsn, $username, $password);
         $connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         return self::$instance[$conf_id] = $connection;
     }
