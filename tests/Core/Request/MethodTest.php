@@ -12,10 +12,10 @@ final class MethodTest extends TestCase
      */
     public function testRequestMethod1(): void
     {
-        unset($_SERVER['REQUEST_METHOD']);
         $_SERVER['REQUEST_METHOD'] = 'GET';
-
         self::assertEquals(Request\Method::GET, Request::method());
+
+        unset($_SERVER['REQUEST_METHOD']);
     }
 
     /**
@@ -23,10 +23,10 @@ final class MethodTest extends TestCase
      */
     public function testRequestMethod2(): void
     {
-        unset($_SERVER['REQUEST_METHOD']);
         $_SERVER['REQUEST_METHOD'] = 'puT';
-
         self::assertEquals(Request\Method::PUT, Request::method());
+
+        unset($_SERVER['REQUEST_METHOD']);
     }
 
     /**
@@ -34,9 +34,9 @@ final class MethodTest extends TestCase
      */
     public function testRequestMethod3(): void
     {
-        unset($_SERVER['REQUEST_METHOD']);
         $_SERVER['REQUEST_METHOD'] = 'pOsT';
-
         self::assertEquals(Request\Method::POST, Request::method());
+
+        unset($_SERVER['REQUEST_METHOD']);
     }
 }
