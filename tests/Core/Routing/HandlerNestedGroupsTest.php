@@ -25,6 +25,7 @@ final class HandlerNestedGroupsTest extends TestCase
                     $routing->put('/([0-9]+)', [RestfulBook::class, 'book_update']);
                 }, middleware: [Authenticate::class]);
             }, middleware: [Secondary::class]);
+            $routing->get('/single', [RestfulBook::class, 'book_list']);
         };
     }
 
@@ -132,5 +133,33 @@ final class HandlerNestedGroupsTest extends TestCase
         self::assertNotEmpty($json->updated_at);
         self::assertEquals(2469, $json->details->id);
         self::assertEquals('Don Quixote', $json->details->title);
+    }
+
+    /**
+     * @runInSeparateProcess
+     * @covers \Sonic\Routing\RouteMatcher
+     * @covers \Sonic\Tests\Core\TestApp\Controller\RestfulBook
+     */
+    public function testBookSingleJsonResponse(): void
+    {
+        $routeMatcher = new RouteMatcher('/single', Method::GET);
+        $matched = $routeMatcher->getMatched($this->routes);
+        self::assertNotNull($matched);
+        self::assertInstanceOf(RouteMatch::class, $matched);
+
+        [$class, $method] = $matched->getRoute()->getHandler();
+        self::assertEquals('book_list', $method);
+        $controller = new $class();
+        self::assertInstanceOf(RestfulBook::class, $controller);
+
+        $middleware = $matched->getRoute()->getMiddleware();
+        self::assertNull($middleware);
+
+        ob_start();
+        call_user_func_array([$controller, $method], $matched->getParams());
+        $output = ob_get_clean();
+
+        $json = json_decode($output);
+        self::assertTrue($json->success);
     }
 }
