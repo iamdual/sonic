@@ -12,8 +12,8 @@ return static function (RouteCollector $routing) {
 
     $routing->group('/book', function () use ($routing) {
         $routing->get('/', [BookMain::class, 'index']);
-        $routing->get('/details/([0-9]+)', [Details::class, 'index']);
+        $routing->get('/([0-9]+)', [Details::class, 'index']);
         $routing->post('/([0-9]+)', [Actions::class, 'add']);
-        $routing->delete('/([0-9]+)', [Actions::class, 'delete'], middleware: [Authenticate::class]);
+        $routing->put('/([0-9]+)', [Actions::class, 'update'], middleware: [Authenticate::class]);
     });
 };

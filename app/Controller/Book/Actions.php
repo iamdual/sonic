@@ -10,9 +10,9 @@ class Actions extends \Sonic\Controller
         Response::json(['success' => true, 'message' => 'Book added!']);
     }
 
-    public function delete()
+    public function update()
     {
-        Response::statusCode(200);
-        Response::json(['success' => true, 'message' => 'Book deleted!']);
+        Response::statusCode(201);
+        Response::json(['success' => true, 'message' => 'Book updated!']);
     }
 }
