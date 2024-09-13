@@ -35,4 +35,16 @@ class RestfulBook extends Controller
         Response::statusCode(200);
         Response::json(['success' => true, 'details' => $details]);
     }
+
+    public function book_update($id)
+    {
+        $details = [
+            'id' => (int)$id,
+            'title' => 'Don Quixote',
+            'author' => 'Miguel de Cervantes'
+        ];
+
+        Response::statusCode(201);
+        Response::json(['success' => true, 'updated_at' => date('Y-m-d H:i:s'), 'details' => $details]);
+    }
 }

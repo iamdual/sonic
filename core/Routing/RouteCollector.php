@@ -23,8 +23,18 @@ final class RouteCollector
      */
     public function group(string $path, callable $callback, ?array $middleware = null): void
     {
-        $this->group_path = $path;
-        $this->group_middleware = $middleware;
+        if ($this->group_path && $path) {
+            $this->group_path = $this->group_path . $path;
+        } else {
+            $this->group_path = $path;
+        }
+
+        if ($this->group_middleware && $middleware) {
+            $this->group_middleware = array_merge($this->group_middleware, $middleware);
+        } else {
+            $this->group_middleware = $middleware;
+        }
+
         $callback();
         $this->group_path = null;
         $this->group_middleware = null;
