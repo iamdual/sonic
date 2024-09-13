@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'env.caching' => true,
+    'env.caching' => false,
 ];
